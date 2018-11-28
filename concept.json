@@ -1,0 +1,93 @@
+{
+  "name": "car",
+  "rubrics": [
+    {
+      "name": "car",
+      "attributes": [
+        {
+          "name": "plate_number",
+          "type": "string",
+          "required": true,
+          "translatable": false,
+          "defaultValue": null,
+          "isCharacterizing": true,
+          "isCascading": false
+        },
+        {
+          "name": "brand",
+          "type": "reference",
+          "referredRubrics": [
+            "Car.Brand"
+          ],
+          "required": false,
+          "translatable": false,
+          "defaultValue": null,
+          "isCharacterizing": false,
+          "isCascading": false,
+          "allowNewSections": true,
+          "allowExistingSections": true
+        },
+        {
+          "name": "color",
+          "type": "reference",
+          "referredRubrics": [
+            "Car.Color"
+          ],
+          "required": false,
+          "translatable": false,
+          "defaultValue": null,
+          "isCharacterizing": false,
+          "isCascading": false,
+          "allowNewSections": false,
+          "allowExistingSections": true
+        }
+      ]
+    },
+    {
+      "name": "color",
+      "attributes": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "translatable": true,
+          "defaultValue": null,
+          "isCharacterizing": true,
+          "isCascading": false
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "required": false,
+          "translatable": false,
+          "defaultValue": null,
+          "isCharacterizing": true,
+          "isCascading": false
+        }
+      ]
+    },
+    {
+      "name": "brand",
+      "attributes": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "translatable": true,
+          "defaultValue": null,
+          "isCharacterizing": true,
+          "isCascading": false
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "required": false,
+          "translatable": false,
+          "defaultValue": null,
+          "isCharacterizing": true,
+          "isCascading": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "ikadar/code-generation",
+  "description": "Code generation experiments",
+  "type": "project",
+  "require": {
+    "php": ">=7.0.0",
+    "nette/php-generator": "^3.2",
+    "swaggest/json-schema": "^0.12.5",
+    "seld/jsonlint": "^1.7",
+    "phpdocumentor/reflection-docblock": "^4.3",
+    "cpliakas/git-wrapper": "^2.1",
+    "kdyby/parse-use-statements": "^0.2.0"
+  },
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Wheel\\": "Wheel/",
+      "Lib\\": "Lib/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Istvan Kadar",
+      "email": "odesk.kadari@gmail.com"
+    }
+  ]
+}

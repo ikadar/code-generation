@@ -1,0 +1,189 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: istvan
+ * Date: 2018. 11. 20.
+ * Time: 10:49
+ */
+
+namespace Lib\Generator;
+
+use Lib\Util;
+
+/**
+ * Class ClassVarGenerator
+ *
+ * Add class member variable to class:
+ * - use statement
+ * - class variable declaration
+ * - class variable instantiation into rubric constructor
+ * - setter for class variable
+ * - getter for class variable
+ *
+ * @package Lib
+ */
+class ClassVarGenerator
+{
+
+    const USE_STATEMENT = 'use';
+    const DECLARATION = 'declaration';
+    const INSTANTIATION = 'instantiation';
+    const SETTER = 'setter';
+    const GETTER = 'getter';
+
+    /**
+     * @param $hostClass
+     * @param $name
+     * @param $type
+     * @param $alias
+     * @param $pathElements
+     * @param $partsToCreate
+     * @param null $setterBodyCallback
+     * @param null $getterBodyCallback
+     */
+    public static function addClassVar($hostClass, $name, $type, $alias, $pathElements, $partsToCreate, $setterBodyCallback = null, $getterBodyCallback = null)
+    {
+        $alias = $alias ? Util::pascalize($alias) : AttributeClassGenerator::getAttributeAlias($pathElements);
+        $setterBodyCallback = $setterBodyCallback ?: function ($attributeName) {
+            return [
+                '$this->' . $attributeName . ' = $' . $attributeName . ';'
+            ];
+        };
+
+        $getterBodyCallback = $getterBodyCallback ?: function ($attributeName) {
+            return [
+                'return $this->' . $attributeName . ';'
+            ];
+        };
+
+        /**
+         * Create use statement for attribute
+         * todo: add docblock for setter
+         */
+        if (in_array(self::USE_STATEMENT, $partsToCreate)) {
+            self::addUseStatement($hostClass, $alias, $pathElements);
+        }
+
+        /**
+         * Create attribute declaration
+         * todo: add docblock for setter
+         */
+        if (in_array(self::DECLARATION, $partsToCreate)) {
+            self::addAttributeDeclaration($hostClass, $name, $alias);
+        }
+
+        /**
+         * Create code for attribute instantiation
+         * todo: add docblock for setter
+         */
+        if (in_array(self::INSTANTIATION, $partsToCreate)) {
+            self::addAttributeInstantiation($hostClass, $name, $alias);
+        }
+
+        /**
+         * Create setter for attribute value
+         * todo: add docblock for setter
+         */
+        if (in_array(self::SETTER, $partsToCreate)) {
+            self::addAttributeSetter($hostClass, $name, $type, $pathElements, $setterBodyCallback);
+        }
+
+        /**
+         * Create getter for attribute value
+         * todo: add docblock for getter
+         */
+        if (in_array(self::GETTER, $partsToCreate)) {
+            self::addAttributeGetter($hostClass, $name, $type, $pathElements, $getterBodyCallback);
+        }
+
+    }
+
+    protected static function addUseStatement($hostClass, $alias, $pathElements)
+    {
+        $hostClass->nameSpace->addUse(GeneratorPathBuilderService::buildUse($pathElements), $alias);
+    }
+
+    /**
+     * @param $hostClass
+     * @param $attributeName
+     * @param $alias
+     */
+    protected static function addAttributeDeclaration($hostClass, $attributeName, $alias)
+    {
+        $hostClass->class->addProperty($attributeName)
+            ->setVisibility('protected')
+            ->setComment('@var ' . $alias . ' $' . $attributeName);
+    }
+
+    /**
+     * @param $hostClass
+     * @param $attributeName
+     * @param $alias
+     */
+    protected static function addAttributeInstantiation($hostClass, $attributeName, $alias)
+    {
+        $hostClass->class->getMethod('__construct')->addBody('$this->' . $attributeName . ' = new ' . $alias . '();');
+    }
+
+    /**
+     * @param $hostClass
+     * @param $attributeName
+     * @param $type
+     * @param $pathElements
+     * @param $bodyCallback
+     */
+    protected static function addAttributeSetter($hostClass, $attributeName, $type, $pathElements, $bodyCallback)
+    {
+        $attributeRubricClass = self::getAttributeRubricClass($pathElements, $attributeName);
+
+        $setMethod = $hostClass->class
+            ->addMethod('set' . Util::pascalize($attributeName))
+            ->setVisibility('public');
+
+        $setMethod
+            ->addParameter($attributeName)
+            ->setTypeHint($type === 'reference' ? $attributeRubricClass : $type);
+
+        $lines = $bodyCallback($attributeName);
+        $setMethod->addBody(implode("\n", $lines));
+        $setMethod->addBody('return $this;');
+    }
+
+    /**
+     * @param $hostClass
+     * @param $attributeName
+     * @param $type
+     * @param $pathElements
+     * @param $bodyCallback
+     */
+    protected static function addAttributeGetter($hostClass, $attributeName, $type, $pathElements, $bodyCallback)
+    {
+        $attributeRubricClass = self::getAttributeRubricClass($pathElements, $attributeName);
+
+        $lines = $bodyCallback($attributeName);
+
+        $hostClass->class->addMethod('get' . Util::pascalize($attributeName))
+            ->setVisibility('public')
+            ->setReturnType($type === 'reference' ? $attributeRubricClass : $type)
+            ->addBody(implode("\n", $lines));
+    }
+
+    /**
+     * @param $pathElements
+     * @param $attributeName
+     * @return array|string
+     */
+    public static function getAttributeRubricClass($pathElements, $attributeName)
+    {
+        // todo: Parameter should be a rubric, not an attribute here, work it out, current solution is a workaround
+
+        $ext = array_pop($pathElements);
+        array_pop($pathElements);
+        array_pop($pathElements);
+        array_push($pathElements, $attributeName);
+        array_push($pathElements, $ext);
+
+        return GeneratorPathBuilderService::buildFQName($pathElements);
+    }
+
+}
