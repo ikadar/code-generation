@@ -17,6 +17,10 @@ use Nette\PhpGenerator\PhpFile;
  */
 class ConceptClassGenerator extends ClassGenerator
 {
+
+    public $conceptPrototypeService;
+    public $prototypeConstructor;
+
     /**
      * ConceptClassGenerator constructor.
      * @param $pathElements
@@ -110,7 +114,7 @@ class ConceptClassGenerator extends ClassGenerator
         $protoPathElements = $this->pathElements;
         array_pop($protoPathElements);
         array_pop($protoPathElements);
-        array_push($protoPathElements, 'CarPrototypeService');
+        array_push($protoPathElements, 'PrototypeService');
         array_push($protoPathElements, 'php');
 
         GeneratorService::addSourceFile([
