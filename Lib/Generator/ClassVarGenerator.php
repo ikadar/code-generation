@@ -77,7 +77,7 @@ class ClassVarGenerator
          * todo: add docblock for setter
          */
         if (in_array(self::INSTANTIATION, $partsToCreate)) {
-            self::addAttributeInstantiation($hostClass, $name, $alias);
+            self::addAttributeInstantiation($hostClass, $name, $alias, $pathElements);
         }
 
         /**
@@ -120,9 +120,12 @@ class ClassVarGenerator
      * @param $attributeName
      * @param $alias
      */
-    protected static function addAttributeInstantiation($hostClass, $attributeName, $alias)
+    protected static function addAttributeInstantiation($hostClass, $attributeName, $alias, $pathElements)
     {
-        $hostClass->class->getMethod('__construct')->addBody('$this->' . $attributeName . ' = new ' . $alias . '();');
+//        $this->car = PrototypeService::get('\Wheel\Concept\Car\Car');
+
+        $hostClass->class->getMethod('__construct')->addBody('$this->' . $attributeName . ' = PrototypeService::get(\'' . GeneratorPathBuilderService::buildFQName($pathElements) . '\');');
+//        $hostClass->class->getMethod('__construct')->addBody('$this->' . $attributeName . ' = new ' . $alias . '();');
     }
 
     /**

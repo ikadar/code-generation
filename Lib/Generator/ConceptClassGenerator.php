@@ -28,6 +28,8 @@ class ConceptClassGenerator extends ClassGenerator
     {
         $this->parentClass = 'Wheel\Core\Concept';
         parent::__construct($pathElements);
+
+        $this->nameSpace->addUse('Wheel\\Concept\\PrototypeService');
     }
 
     /**

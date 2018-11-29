@@ -28,6 +28,8 @@ class AttributeClassGenerator extends ClassGenerator
     {
         $this->parentClass = 'Wheel\Core\Attribute';
         parent::__construct($pathElements);
+
+        $this->nameSpace->addUse('Wheel\\Concept\\PrototypeService');
     }
 
     /**

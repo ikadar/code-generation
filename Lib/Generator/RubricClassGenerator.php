@@ -25,6 +25,8 @@ class RubricClassGenerator extends ClassGenerator
     {
         $this->parentClass = 'Wheel\Core\Rubric';
         parent::__construct($pathElements);
+
+        $this->nameSpace->addUse('Wheel\\Concept\\PrototypeService');
     }
 
     /**

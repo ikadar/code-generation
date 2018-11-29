@@ -8,35 +8,17 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-//$carConcept = new \Wheel\Concept\Car();
-//
-//
-//print_r(get_declared_classes()); die();
-//
-//$wheelCustomClasses = array_values(array_filter(get_declared_classes(), function ($item) {
-//    return strpos($item, 'Wheel\\Concept\\') === 0;
-//}));
-//
-//
-//print_r($wheelCustomClasses); die();
-//
-//$proto = [];
-//foreach ($wheelCustomClasses as $wheelCustomClass) {
-////    $object = new $wheelCustomClass();
-//    $proto[$wheelCustomClass] = new $wheelCustomClass();
-//}
-//
-//print_r($proto);
-//
-////$cc = clone $proto['Wheel\\Concept\\Car'];
-//
-////print_r($cc);
-////var_dump($carConcept);
-//die();
 
-$carConcept = new \Wheel\Concept\Car();
+use Wheel\Concept\PrototypeService;
+use Wheel\Concept\Car;
+
+
+PrototypeService::init();
 
 $t0 = microtime(true);
+
+$carConcept = new Car();
+
 
 $oneCar = $carConcept->getCar();
 

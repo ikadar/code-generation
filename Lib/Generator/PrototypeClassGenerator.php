@@ -10,13 +10,22 @@ namespace Lib\Generator;
 
 use Nette\PhpGenerator\PhpFile;
 
+/**
+ * Class PrototypeClassGenerator
+ *
+ * todo: this class should extend ClassGenerator class, but currently there are conflicts between static and non-static variables of these classes
+ *
+ * @package Lib\Generator
+ */
+
 class PrototypeClassGenerator
 {
 
     private static $prototypeClassSource;
     private static $nameSpace;
     private static $class;
-    private static $constructor;
+    private static $initializer;
+    private static $keyInitializer;
     private static $pathElements;
 
     public static function initialize(array $pathElements) {
@@ -37,18 +46,29 @@ class PrototypeClassGenerator
 
         self::$class->addProperty('prototypes')->setStatic()->setVisibility('protected');
 
-        self::$constructor = self::$class->addMethod("__construct")->setVisibility('public');
-        self::$constructor->addBody('self::$prototypes = [];');
+        self::$keyInitializer = self::$class->addMethod("initKeys")->setVisibility('private')->setStatic();
+        self::$keyInitializer->addBody('self::$prototypes = [];');
+
+        self::$initializer = self::$class->addMethod("init")->setVisibility('public')->setStatic();
+        self::$initializer->addBody('self::initKeys();');
 
         $getter = self::$class->addMethod("get");
         $getter->setStatic();
         $getter->addParameter('className')->setTypeHint('string');
-        $getter->addBody('return clone self::$prototypes[$className];');
+        $getter->addBody('if (array_key_exists($className, self::$prototypes)) {');
+        $getter->addBody('    if (self::$prototypes[$className] === null) {');
+        $getter->addBody('        self::$prototypes[$className] = new $className();');
+        $getter->addBody('    }');
+        $getter->addBody('    return clone self::$prototypes[$className];');
+        $getter->addBody('} else {');
+        $getter->addBody('    throw new \\Exception($className . \' has no prototype.\');');
+        $getter->addBody('}');
     }
 
     public static function addClass($classFQName)
     {
-        self::$constructor->addBody('self::$prototypes["' . $classFQName . '"] = new \\' . $classFQName . '();');
+        self::$keyInitializer->addBody('self::$prototypes["' . $classFQName . '"] = null;');
+        self::$initializer->addBody('self::$prototypes["' . $classFQName . '"] = new ' . $classFQName . '();');
     }
 
     public static function getSource(): PhpFile
@@ -60,4 +80,5 @@ class PrototypeClassGenerator
     {
         return GeneratorPathBuilderService::buildPath(self::$pathElements);
     }
+
 }

@@ -9,6 +9,7 @@
 namespace Wheel\Core;
 
 use Lib\Util;
+use Wheel\Concept\PrototypeService;
 
 class Rubric
 {
@@ -21,7 +22,8 @@ class Rubric
         $namespace = explode('\\', static::class);
         array_pop($namespace);
         $namespace = implode('\\', $namespace);
-        $namespace .= '\\';
+        $namespace = '\\' . $namespace . '\\';
+//        $namespace .= '\\';
 
         return $namespace;
     }
@@ -43,7 +45,8 @@ class Rubric
         $setterMethodName = 'set' . Util::pascalize($attributeName);
 
         if (is_array($data)) {
-            $attributeValue = new $attributeClassName();
+            $attributeValue = PrototypeService::get($attributeClassName);
+//            $attributeValue = new $attributeClassName();
             $attributeValue->load($data);
         } else if (is_object($data)) {
             $attributeValue = $data;

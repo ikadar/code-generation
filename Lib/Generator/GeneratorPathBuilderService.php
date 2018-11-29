@@ -113,7 +113,7 @@ class GeneratorPathBuilderService
             return Util::pascalize($item);
         }, $pathElements);
         $path = implode($directorySeparator, $path);
-        return $path;
+        return $directorySeparator . $path;
     }
 
 }
