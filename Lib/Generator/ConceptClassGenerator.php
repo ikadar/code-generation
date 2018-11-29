@@ -9,7 +9,6 @@
 namespace Lib\Generator;
 
 use Lib\Util;
-use Nette\PhpGenerator\PhpFile;
 
 /**
  * Class ConceptClassGenerator
@@ -42,35 +41,9 @@ class ConceptClassGenerator extends ClassGenerator
     {
 
         /**
-         * todo: Experimental code: build prototype class
+         * Add concept class to prototype service
          */
-        $this->conceptPrototypeService = new PhpFile();
-        $namespace = $this->conceptPrototypeService->addNamespace(GeneratorPathBuilderService::buildNameSpace($this->pathElements));
-        $class = $namespace
-            ->addClass('PrototypeService')
-//            ->setExtends($this->parentClass)
-//            ->addComment($this->getClassDocBlock())
-        ;
-
-        $class->setFinal();
-
-        $prototypesArray = $class->addProperty('prototypes')->setStatic()->setVisibility('protected');
-
-        $this->prototypeConstructor = $class->addMethod("__construct")->setVisibility('public');
-        $this->prototypeConstructor->addBody('self::$prototypes = [];');
-
-        $getter = $class->addMethod("get");
-        $getter->setStatic();
-        $getter->addParameter('className')->setTypeHint('string');
-        $getter->addBody('return clone self::$prototypes[$className];');
-
-
-        $this->prototypeConstructor->addBody('self::$prototypes["' . GeneratorPathBuilderService::buildFQName($this->pathElements) . '"] = new \\' . GeneratorPathBuilderService::buildFQName($this->pathElements) . '();');
-
-        /**
-         * todo: End of experimental code: build prototype class
-         */
-
+        PrototypeClassGenerator::addClass(GeneratorPathBuilderService::buildFQName($this->pathElements));
 
         /**
          * Generate and add concept's rubrics
@@ -86,6 +59,11 @@ class ConceptClassGenerator extends ClassGenerator
                 'php'
             ]);
 
+//            /**
+//             * Add rubric to prototype class
+//             */
+//            PrototypeClassGenerator::addClass(GeneratorPathBuilderService::buildFQName($rubricPathElements));
+
             /**
              * Generate rubric class source code
              */
@@ -98,37 +76,13 @@ class ConceptClassGenerator extends ClassGenerator
             $rubricConfiguration['type'] = GeneratorPathBuilderService::buildFQName($rubricPathElements);
             $this->addRubric($rubricConfiguration, $rubricPathElements);
 
-            /**
-             * todo: Experimental code: add rubric to prototypes
-             */
-            $this->prototypeConstructor->addBody('self::$prototypes["' . GeneratorPathBuilderService::buildFQName($rubricPathElements) . '"] = new \\' . GeneratorPathBuilderService::buildFQName($rubricPathElements) . '();');
-
         }
 
+        /**
+         * Add concept class source to source pool
+         */
         SourcePool::addSourceFile($this->getSourceFileDescriptor());
 
-        /**
-         * todo: Experimental code: prototype class to sources
-         */
-
-        $protoPathElements = $this->pathElements;
-        array_pop($protoPathElements);
-        array_pop($protoPathElements);
-        array_push($protoPathElements, 'PrototypeService');
-        array_push($protoPathElements, 'php');
-
-        SourcePool::addSourceFile([
-            'path' => GeneratorPathBuilderService::buildPath($protoPathElements),
-            'content' => $this->conceptPrototypeService
-        ]);
-
-        var_dump([
-            'path' => GeneratorPathBuilderService::buildPath($protoPathElements),
-            'content' => $this->conceptPrototypeService
-        ]);
-
-        echo $this->conceptPrototypeService;
-//        die();
         return $this;
     }
 

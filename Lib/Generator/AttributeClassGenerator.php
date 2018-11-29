@@ -39,6 +39,12 @@ class AttributeClassGenerator extends ClassGenerator
      */
     function generateAttributeClass($attributeConfiguration)
     {
+
+        /**
+         * Add attribute to prototype class
+         */
+        PrototypeClassGenerator::addClass(GeneratorPathBuilderService::buildFQName($this->pathElements));
+
         foreach ($attributeConfiguration as $configurationKey => $configurationValue) {
 
             /**
@@ -58,7 +64,7 @@ class AttributeClassGenerator extends ClassGenerator
         }
 
         /**
-         * Add rubric cass source to source pool
+         * Add attribute class source to source pool
          */
         SourcePool::addSourceFile($this->getSourceFileDescriptor());
 

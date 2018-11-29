@@ -64,6 +64,14 @@ class GeneratorPathBuilderService
         return $path;
     }
 
+    public static function getNameSpace($pathElements)
+    {
+        array_pop($pathElements); // extension
+        array_pop($pathElements); // file name
+
+        return $pathElements;
+    }
+
     /**
      * @param $pathElements
      * @param string $directorySeparator

@@ -37,6 +37,11 @@ class RubricClassGenerator extends ClassGenerator
     function generateRubricClass($rubricConfiguration, $conceptClass)
     {
         /**
+         * Add rubric to prototype class
+         */
+        PrototypeClassGenerator::addClass(GeneratorPathBuilderService::buildFQName($this->pathElements));
+
+        /**
          * Generate and add rubric's attributes
          */
         foreach ($rubricConfiguration['attributes'] as $attributeConfiguration) {
@@ -44,25 +49,29 @@ class RubricClassGenerator extends ClassGenerator
             /**
              * Calculate attribute path elements
              */
-            $attributePathElements = [
+            $attributePathElements = GeneratorPathBuilderService::getConceptRootRelativePathElements([
                 $conceptClass->className,
                 $rubricConfiguration['name'],
                 $attributeConfiguration['name'] . 'Attribute',
                 'php'
-            ];
+            ]);
 
             /**
              * Generate attribute class source code
              */
-            $attributeClassGenerator = new AttributeClassGenerator(GeneratorPathBuilderService::getConceptRootRelativePathElements($attributePathElements));
+            $attributeClassGenerator = new AttributeClassGenerator($attributePathElements);
             $attributeClassGenerator->generateAttributeClass($attributeConfiguration);
 
             /**
              * Add attribute to rubric class source
              */
             $this->addAttribute($attributeConfiguration, $attributePathElements);
+
         }
 
+        /**
+         * Add rubric source to pool
+         */
         SourcePool::addSourceFile($this->getSourceFileDescriptor());
 
         return $this;
@@ -79,7 +88,7 @@ class RubricClassGenerator extends ClassGenerator
             $attributeConfiguration['name'],
             $attributeConfiguration['type'],
             null,
-            GeneratorPathBuilderService::getConceptRootRelativePathElements($attributePathElements),
+            $attributePathElements,
             [
                 ClassVarGenerator::USE_STATEMENT,
                 ClassVarGenerator::DECLARATION,

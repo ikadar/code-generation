@@ -8,6 +8,9 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
+use Lib\Generator\PrototypeClassGenerator;
+use Lib\Generator\SourcePool;
+
 // Read command line param
 if (!array_key_exists(1, $argv)) {
     $conceptJsonFile = 'concept.json';
@@ -15,8 +18,19 @@ if (!array_key_exists(1, $argv)) {
     $conceptJsonFile = $argv[1];
 }
 
+/**
+ * Initialize prototype class
+ */
+PrototypeClassGenerator::initialize(['Wheel', 'Concept']);
+
 // Generate concept
 $generator = new \Lib\Generator\GeneratorService();
 $generator->generateConceptSource($conceptJsonFile);
-\Lib\Generator\SourcePool::dump();
+
+SourcePool::addSourceFile([
+    'path' => PrototypeClassGenerator::getPath(),
+    'content' => PrototypeClassGenerator::getSource()
+]);
+
+SourcePool::dump();
 
