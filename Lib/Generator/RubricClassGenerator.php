@@ -63,7 +63,7 @@ class RubricClassGenerator extends ClassGenerator
             $this->addAttribute($attributeConfiguration, $attributePathElements);
         }
 
-        GeneratorService::addSourceFile($this->getSourceFileDescriptor());
+        SourcePool::addSourceFile($this->getSourceFileDescriptor());
 
         return $this;
     }

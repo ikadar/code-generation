@@ -18,5 +18,5 @@ if (!array_key_exists(1, $argv)) {
 // Generate concept
 $generator = new \Lib\Generator\GeneratorService();
 $generator->generateConceptSource($conceptJsonFile);
-$generator->dump();
+\Lib\Generator\SourcePool::dump();
 

@@ -88,29 +88,6 @@ class RubricFactory
 }
 
 
-// CONS of anonymous class
-// no namespace (? is it really a con?)
-// no final class possible (For the sake of integrity, we should not allow to change our classes that represents business objects. To achieve that, it is a good practice to make them final, and provide access to them via proxy classes.)
-// each instantiation time we have to execute configuration validation (using prototyping that can be handled)
-// to see diffs between current and previous classes you need to check json definitions and factory code together instead of just check git diff of classes
-// cannot add type hints to attribute setters
-// cannot add return type to attribute getters
-// you have to use magic methods to keep consumer code nice and safe
-//  - compromise code completion
-//  - degrade performance
-//  - degrade security
-// more difficult to debug: Notice:  Undefined property: class@anonymous::$color instead of Notice:  Undefined property: Car::$color
-// during development you can't just change generated code to try out things, you have to change factory code, that will affect behaviour of all classes at a time
-// you can't extend classes from different base classes, so we can't create different base classes for different purposes (e.g. translatable, moderated, etc.) - using treats that can be solved
-// testing
-// dependency injection (?)
-// client code can't be agnostic about class composition
-// you can't change class implementation based on configuration (e.g. if an attribute is read-only, you can't just remove its setter)
-// cannot live different concepts from different versions together
-
-
-// PROS of code generation
-// auto generated documentation
 
 
 $t0 = microtime(true);

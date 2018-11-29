@@ -58,9 +58,9 @@ class AttributeClassGenerator extends ClassGenerator
         }
 
         /**
-         * Add rubric cass source to GeneratorService's pool
+         * Add rubric cass source to source pool
          */
-        GeneratorService::addSourceFile($this->getSourceFileDescriptor());
+        SourcePool::addSourceFile($this->getSourceFileDescriptor());
 
         return $this;
     }

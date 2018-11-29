@@ -105,7 +105,7 @@ class ConceptClassGenerator extends ClassGenerator
 
         }
 
-        GeneratorService::addSourceFile($this->getSourceFileDescriptor());
+        SourcePool::addSourceFile($this->getSourceFileDescriptor());
 
         /**
          * todo: Experimental code: prototype class to sources
@@ -117,7 +117,7 @@ class ConceptClassGenerator extends ClassGenerator
         array_push($protoPathElements, 'PrototypeService');
         array_push($protoPathElements, 'php');
 
-        GeneratorService::addSourceFile([
+        SourcePool::addSourceFile([
             'path' => GeneratorPathBuilderService::buildPath($protoPathElements),
             'content' => $this->conceptPrototypeService
         ]);
