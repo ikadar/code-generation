@@ -98,16 +98,14 @@ class RubricClassGenerator extends ClassGenerator
      */
     private function addAttribute($attributeConfiguration, $attributePathElements)
     {
-        $alias = AttributeClassGenerator::getAttributeAlias($attributePathElements);
-
         ClassVarGenerator::addClassVar(
             $this,
             $attributeConfiguration['name'],
             $attributeConfiguration['type'],
+            $alias,
             AttributeClassGenerator::getAttributeAlias($attributePathElements),
-            $attributePathElements,
             [
-                ClassVarGenerator::USE_STATEMENT,
+//                ClassVarGenerator::USE_STATEMENT,
                 ClassVarGenerator::DECLARATION,
                 ClassVarGenerator::INSTANTIATION,
                 ClassVarGenerator::SETTER,
