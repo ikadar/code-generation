@@ -19,7 +19,7 @@ $t0 = microtime(true);
 $oneCar = PrototypeService::new('\Wheel\Concept\Car\CarProxy');
 //$oneCar = new \Wheel\Concept\Car\CarProxy();
 
-$newColor = PrototypeService::new('\Wheel\Concept\Car\Color')
+$newColor = PrototypeService::new('\Wheel\Concept\Car\ColorProxy')
     ->setName('Red')
     ->setcode('red')
 ;
