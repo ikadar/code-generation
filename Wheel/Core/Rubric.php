@@ -56,4 +56,16 @@ class Rubric
         $this->$setterMethodName($attributeValue);
     }
 
+    public function getData(): array
+    {
+        $data = get_object_vars($this);
+        foreach ($data as $attributeName => $attribute) {
+            if (is_a($attribute->getValue(), Rubric::class)) {
+                $data[$attributeName] = $attribute->getValue()->getData();
+            } else {
+                $data[$attributeName] = $attribute->getValue();
+            }
+        }
+        return $data;
+    }
 }

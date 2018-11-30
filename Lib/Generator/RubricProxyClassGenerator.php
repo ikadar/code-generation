@@ -36,18 +36,18 @@ class RubricProxyClassGenerator extends ClassGenerator
 
         $this->constructor->addBody('$this->section = PrototypeService::new(\'' . GeneratorPathBuilderService::buildFQName($proxiedClassPathElements) . '\');');
 
-        $this->generateLoaderMethod();
+//        $this->generateLoaderMethod();
 
         PrototypeClassGenerator::addClass(GeneratorPathBuilderService::buildFQName($this->pathElements));
 
     }
 
-    private function generateLoaderMethod()
-    {
-        $this->sectionLoaderMethod = $this->class->addMethod('load');
-        $this->sectionLoaderMethod->addParameter('data')->setTypeHint('array');
-        $this->sectionLoaderMethod->addBody('$this->section->load($data);');
-    }
+//    private function generateLoaderMethod()
+//    {
+//        $this->sectionLoaderMethod = $this->class->addMethod('load');
+//        $this->sectionLoaderMethod->addParameter('data')->setTypeHint('array');
+//        $this->sectionLoaderMethod->addBody('$this->section->load($data);');
+//    }
 
     /**
      * @return mixed

@@ -12,7 +12,13 @@ use Wheel\Concept\PrototypeService;
 
 class RubricProxy
 {
+
+    /**
+     * @var Rubric null
+     */
     protected $section = null;
+
+    public $id;
 
     public function __construct($className)
     {
@@ -23,4 +29,20 @@ class RubricProxy
     {
         return $this->section;
     }
+
+    public function getData()
+    {
+        return $this->section->getData();
+    }
+
+    public function getRubricClass()
+    {
+        return get_class($this->section);
+    }
+
+    public function load(array $data)
+    {
+        $this->section->load($data);
+    }
+
 }
