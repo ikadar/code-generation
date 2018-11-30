@@ -8,12 +8,15 @@
 
 namespace Wheel\Core;
 
+use Wheel\Concept\PrototypeService;
+
 class RubricProxy
 {
     protected $section = null;
 
-    public function __construct()
+    public function __construct($className)
     {
+        $this->section = PrototypeService::new($className);
     }
 
     public function get()

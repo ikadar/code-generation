@@ -16,6 +16,7 @@ use Lib\Util;
  */
 class RubricClassGenerator extends ClassGenerator
 {
+    protected $proxyGenerator;
 
     /**
      * RubricClassGenerator constructor.
@@ -27,6 +28,8 @@ class RubricClassGenerator extends ClassGenerator
         parent::__construct($pathElements);
 
         $this->nameSpace->addUse('Wheel\\Concept\\PrototypeService');
+
+        $this->proxyGenerator = new RubricProxyClassGenerator($pathElements);
     }
 
     /**
@@ -69,12 +72,22 @@ class RubricClassGenerator extends ClassGenerator
              */
             $this->addAttribute($attributeConfiguration, $attributePathElements);
 
+            /**
+             * Add attribute to rubric proxy class source
+             */
+            $this->proxyGenerator->addAttribute($attributeConfiguration, $attributePathElements);
+
         }
 
         /**
          * Add rubric source to pool
          */
         SourcePool::addSourceFile($this->getSourceFileDescriptor());
+
+        /**
+         * Add rubric proxy source to pool
+         */
+        SourcePool::addSourceFile($this->proxyGenerator->getSourceFileDescriptor());
 
         return $this;
     }
