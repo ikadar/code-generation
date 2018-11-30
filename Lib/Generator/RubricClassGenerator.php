@@ -131,9 +131,9 @@ class RubricClassGenerator extends ClassGenerator
     public static function getRubricAlias($pathElements)
     {
         array_pop($pathElements); // extension
-        $rubricName = Util::pascalize(array_pop($pathElements));
-        $conceptName = Util::pascalize(array_pop($pathElements));
-        return implode('\\', [$conceptName, $rubricName]);
+        $rubricName = array_pop($pathElements);
+        $conceptName = array_pop($pathElements);
+        return Util::pascalize(implode('_', [$conceptName, $rubricName]));
     }
 
     /**
