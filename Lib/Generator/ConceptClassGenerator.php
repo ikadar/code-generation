@@ -98,7 +98,7 @@ class ConceptClassGenerator extends ClassGenerator
             $rubricAlias,
             $rubricPathElements,
             [
-                ClassVarGenerator::USE_STATEMENT,
+//                ClassVarGenerator::USE_STATEMENT,
                 ClassVarGenerator::DECLARATION,
                 ClassVarGenerator::INSTANTIATION,
                 ClassVarGenerator::SETTER,
