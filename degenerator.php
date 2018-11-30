@@ -7,9 +7,12 @@
  */
 
 use Kdyby\ParseUseStatements\UseStatements;
-use Lib\Generator\ClassGenerator;
+use Wheel\Concept\PrototypeService;
 
 require __DIR__ . '/vendor/autoload.php';
+
+PrototypeService::init();
+
 
 $conceptName = 'Car';
 $conceptFQName = 'Wheel\\Concept\\' . $conceptName;
