@@ -124,7 +124,7 @@ class ClassVarGenerator
     {
 //        $this->car = PrototypeService::get('\Wheel\Concept\Car\Car');
 
-        $hostClass->class->getMethod('__construct')->addBody('$this->' . $attributeName . ' = PrototypeService::get(\'' . GeneratorPathBuilderService::buildFQName($pathElements) . '\');');
+        $hostClass->class->getMethod('__construct')->addBody('$this->' . $attributeName . ' = PrototypeService::new(\'' . GeneratorPathBuilderService::buildFQName($pathElements) . '\');');
 //        $hostClass->class->getMethod('__construct')->addBody('$this->' . $attributeName . ' = new ' . $alias . '();');
     }
 

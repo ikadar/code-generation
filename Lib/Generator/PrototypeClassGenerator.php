@@ -52,17 +52,18 @@ class PrototypeClassGenerator
         self::$initializer = self::$class->addMethod("init")->setVisibility('public')->setStatic();
         self::$initializer->addBody('self::initKeys();');
 
-        $getter = self::$class->addMethod("get");
-        $getter->setStatic();
-        $getter->addParameter('className')->setTypeHint('string');
-        $getter->addBody('if (array_key_exists($className, self::$prototypes)) {');
-        $getter->addBody('    if (self::$prototypes[$className] === null) {');
-        $getter->addBody('        self::$prototypes[$className] = new $className();');
-        $getter->addBody('    }');
-        $getter->addBody('    return clone self::$prototypes[$className];');
-        $getter->addBody('} else {');
-        $getter->addBody('    throw new \\Exception($className . \' has no prototype.\');');
-        $getter->addBody('}');
+        $instantiateMethod = self::$class->addMethod("new");
+        $instantiateMethod->setStatic();
+        // todo: move this into parent class
+        $instantiateMethod->addParameter('className')->setTypeHint('string');
+        $instantiateMethod->addBody('if (array_key_exists($className, self::$prototypes)) {');
+        $instantiateMethod->addBody('    if (self::$prototypes[$className] === null) {');
+        $instantiateMethod->addBody('        self::$prototypes[$className] = new $className();');
+        $instantiateMethod->addBody('    }');
+        $instantiateMethod->addBody('    return clone self::$prototypes[$className];');
+        $instantiateMethod->addBody('} else {');
+        $instantiateMethod->addBody('    throw new \\Exception($className . \' has no prototype.\');');
+        $instantiateMethod->addBody('}');
     }
 
     public static function addClass($classFQName)

@@ -39,13 +39,11 @@ class Rubric
 
     public function loadAttribute($class, $attributeName, $data)
     {
-        // todo: instantiating variable name class should be replaced with prototype pattern
-        // todo: calling variable name function should not be used
         $attributeClassName = $class . Util::pascalize($attributeName);
         $setterMethodName = 'set' . Util::pascalize($attributeName);
 
         if (is_array($data)) {
-            $attributeValue = PrototypeService::get($attributeClassName);
+            $attributeValue = PrototypeService::new($attributeClassName);
 //            $attributeValue = new $attributeClassName();
             $attributeValue->load($data);
         } else if (is_object($data)) {
@@ -53,6 +51,7 @@ class Rubric
         } else {
             $attributeValue = $data;
         }
+        // todo: calling variable name function should not be used
         $this->$setterMethodName($attributeValue);
     }
 
