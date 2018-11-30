@@ -105,9 +105,8 @@ class AttributeClassGenerator extends ClassGenerator
     static public function getAttributeAlias($pathElements)
     {
         array_pop($pathElements); // extension
-        $attributeName = Util::pascalize(array_pop($pathElements));
-        $rubricName = Util::pascalize(array_pop($pathElements));
-        return implode('\\', [$rubricName, $attributeName]);
+        $attributeName = array_pop($pathElements);
+        return Util::pascalize($attributeName);
     }
 
 }
