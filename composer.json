@@ -3,7 +3,7 @@
   "description": "Code generation experiments",
   "type": "project",
   "require": {
-    "php": ">=7.0.0",
+    "php": ">=7.1.0",
     "nette/php-generator": "^3.2",
     "swaggest/json-schema": "^0.12.5",
     "seld/jsonlint": "^1.7",
