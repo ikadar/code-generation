@@ -61,11 +61,6 @@ class ConceptClassGenerator extends ClassGenerator
                 'php'
             ]);
 
-//            /**
-//             * Add rubric to prototype class
-//             */
-//            PrototypeClassGenerator::addClass(GeneratorPathBuilderService::buildFQName($rubricPathElements));
-
             /**
              * Generate rubric class source code
              */

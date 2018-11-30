@@ -97,6 +97,8 @@ abstract class ClassGenerator
     protected abstract function getClassDocBlock();
 
     /**
+     * todo: This should be only in CRA class generators
+     *
      * @return mixed
      */
     protected abstract function buildWheelDottedPath();
