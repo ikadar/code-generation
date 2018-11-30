@@ -47,7 +47,8 @@ class Rubric
 //            $attributeValue = new $attributeClassName();
             $attributeValue->load($data);
         } else if (is_object($data)) {
-            $attributeValue = $data;
+            $attributeValue = $data->get();
+//            $attributeValue = $data;
         } else {
             $attributeValue = $data;
         }
