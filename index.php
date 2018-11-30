@@ -17,7 +17,6 @@ $t0 = microtime(true);
 
 // todo: add Proxy to prototyping
 $oneCar = PrototypeService::new('\Wheel\Concept\Car\CarProxy');
-//$oneCar = new \Wheel\Concept\Car\CarProxy();
 
 $newColor = PrototypeService::new('\Wheel\Concept\Car\ColorProxy')
     ->setName('Red')
@@ -39,7 +38,6 @@ var_dump($oneCar->getColor()->getName() . ' (' . $oneCar->getColor()->getCode() 
 var_dump($oneCar->getBrand()->getName() . ' (' . $oneCar->getBrand()->getCode() . ')');
 
 $anotherCar = PrototypeService::new('\Wheel\Concept\Car\CarProxy');
-//$anotherCar = new \Wheel\Concept\Car\CarProxy();
 
 $anotherCar->load([
     'plate_number' => 'GH-33-17',
