@@ -102,10 +102,10 @@ class RubricClassGenerator extends ClassGenerator
             $this,
             $attributeConfiguration['name'],
             $attributeConfiguration['type'],
-            null,
-            $attributePathElements,
+            $alias,
+            AttributeClassGenerator::getAttributeAlias($attributePathElements),
             [
-                ClassVarGenerator::USE_STATEMENT,
+//                ClassVarGenerator::USE_STATEMENT,
                 ClassVarGenerator::DECLARATION,
                 ClassVarGenerator::INSTANTIATION,
                 ClassVarGenerator::SETTER,
