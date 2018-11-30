@@ -10,6 +10,8 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Wheel\Concept\PrototypeService;
 
+include("repository.php");
+
 PrototypeService::init();
 
 
@@ -17,21 +19,13 @@ $t0 = microtime(true);
 
 // todo: add Proxy to prototyping
 $oneCar = PrototypeService::new('\Wheel\Concept\Car\CarProxy');
-//$oneCar = new \Wheel\Concept\Car\CarProxy();
 
-$newColor = PrototypeService::new('\Wheel\Concept\Car\ColorProxy')
-    ->setName('Red')
-    ->setcode('red')
-;
+//$newColor = PrototypeService::new('\Wheel\Concept\Car\ColorProxy')
+//    ->setName('Red')
+//    ->setcode('red')
+//;
 
-$oneCar->load([
-    'plate_number' => 'TZ-41-72',
-    'color' => $newColor,
-    'brand' => [
-        'name' => 'Trabant',
-        'code' => 'trabant',
-    ]
-]);
+$oneCar->load($repository->get('car.trabant'));
 
 var_dump($oneCar);
 var_dump($oneCar->getPlateNumber());
@@ -41,17 +35,18 @@ var_dump($oneCar->getBrand()->getName() . ' (' . $oneCar->getBrand()->getCode() 
 $anotherCar = PrototypeService::new('\Wheel\Concept\Car\CarProxy');
 //$anotherCar = new \Wheel\Concept\Car\CarProxy();
 
-$anotherCar->load([
-    'plate_number' => 'GH-33-17',
-    'color' => [
-        'name' => 'Blue',
-        'code' => 'blue',
-    ],
-    'brand' => [
-        'name' => 'Lada',
-        'code' => 'lada',
-    ]
-]);
+//$anotherCar->load([
+//    'plate_number' => 'GH-33-17',
+//    'color' => [
+//        'name' => 'Blue',
+//        'code' => 'blue',
+//    ],
+//    'brand' => [
+//        'name' => 'Lada',
+//        'code' => 'lada',
+//    ]
+//]);
+$anotherCar->load($repository->get('car.lada'));
 
 var_dump($anotherCar);
 var_dump($anotherCar->getPlateNumber());

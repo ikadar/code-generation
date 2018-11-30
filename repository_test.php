@@ -8,42 +8,89 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
+use Wheel\Concept\PrototypeService;
+use Wheel\Core\Repository\BaseRepository;
 use Wheel\Core\Persistence\InMemoryStorage;
 
+PrototypeService::init();
+
 $storage = new InMemoryStorage();
-InMemoryStorage::dump();
 
+$repository = new BaseRepository($storage);
 
-$entities = [
+$cars = [
     [
-        "a" => "b",
-        "b" => 1,
-        "c" => true,
+        'plate_number' => 'AG-27-44',
+        'color' => [
+            'name' => 'Green',
+            'code' => 'green',
+        ],
+        'brand' => [
+            'name' => 'Wartburg',
+            'code' => 'wartburg',
+        ]
     ],
     [
-        "d" => "e",
-        "e" => -99,
-        "c" => [1, "qwe"],
+        'plate_number' => 'TZ-41-72',
+        'color' => [
+            'name' => 'Red',
+            'code' => 'red',
+        ],
+        'brand' => [
+            'name' => 'Trabant',
+            'code' => 'trabant',
+        ]
+    ],
+    [
+        'plate_number' => 'GH-33-17',
+        'color' => [
+            'name' => 'Blue',
+            'code' => 'blue',
+        ],
+        'brand' => [
+            'name' => 'Lada',
+            'code' => 'lada',
+        ]
     ]
 ];
 
-foreach ($entities as $entity) {
-    $entity = $storage->add($entity);
+
+foreach ($cars as $carData) {
+    $car = PrototypeService::new('\Wheel\Concept\Car\CarProxy');
+    $car->load($carData);
+    $repository->add($car);
 }
-InMemoryStorage::dump();
 
+//$repository->dump();
 
-$list = $storage->list();
+$t0 = microtime(true);
+$list = $repository->list();
+$t1 = microtime(true);
 //var_dump($list);
 
 $entity = end($list);
-//var_dump($entity);
+var_dump($entity);
+//var_dump($entity->get());
 
-$entity['d'] = 'aaa';
-$storage->edit($entity);
+$entity = $repository->getById($entity->id);
+var_dump($entity);
+var_dump($entity->getPlateNumber());
+var_dump($entity->getColor()->getName());
+var_dump($entity->getBrand()->getName());
 
-InMemoryStorage::dump();
 
-$storage->delete($entity['id']);
-InMemoryStorage::dump();
+$yellowColor = PrototypeService::new('\Wheel\Concept\Car\ColorProxy');
+$yellowColor->load([
+    "name" => "Yellow",
+    "code" => "yellow"
+]);
 
+$entity->setColor($yellowColor->get());
+
+$repository->edit($entity);
+
+$repository->delete($entity->id);
+$list = $repository->list();
+var_dump($list);
+
+//var_dump(round($t1-$t0, 4));
