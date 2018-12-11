@@ -52,11 +52,11 @@ class SourcePool
                 file_put_contents($currentPath, $content);
             }
         }
-        echo("\n");
-
-        echo $currentPath;
-        echo "\n";
-        echo $content;
+//        echo("\n");
+//
+//        echo $currentPath;
+//        echo "\n";
+//        echo $content;
 
     }
 
