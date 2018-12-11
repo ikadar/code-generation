@@ -93,6 +93,9 @@
         },
         "allowExistingSections": {
           "type": "boolean"
+        },
+        "cascadingSources": {
+          "type": "array"
         }
       },
       "additionalProperties": false,
@@ -118,7 +121,8 @@
         "type": {
           "type": "string",
           "enum": [
-            "string"
+            "string",
+            "number"
           ]
         },
         "required": {
@@ -134,6 +138,9 @@
         },
         "isCascading": {
           "type": "boolean"
+        },
+        "cascadingSources": {
+          "type": "array"
         }
       },
       "additionalProperties": false,
