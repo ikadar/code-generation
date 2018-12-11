@@ -58,7 +58,6 @@ class ClassVarGenerator
 
         /**
          * Create use statement for attribute
-         * todo: add docblock for setter
          */
         if (in_array(self::USE_STATEMENT, $partsToCreate)) {
             self::addUseStatement($hostClass, $alias, $pathElements);
@@ -66,7 +65,6 @@ class ClassVarGenerator
 
         /**
          * Create attribute declaration
-         * todo: add docblock for setter
          */
         if (in_array(self::DECLARATION, $partsToCreate)) {
             self::addAttributeDeclaration($hostClass, $name, $alias);
@@ -74,7 +72,6 @@ class ClassVarGenerator
 
         /**
          * Create code for attribute instantiation
-         * todo: add docblock for setter
          */
         if (in_array(self::INSTANTIATION, $partsToCreate)) {
             self::addAttributeInstantiation($hostClass, $name, $alias, $pathElements);
@@ -82,7 +79,6 @@ class ClassVarGenerator
 
         /**
          * Create setter for attribute value
-         * todo: add docblock for setter
          */
         if (in_array(self::SETTER, $partsToCreate)) {
             self::addAttributeSetter($hostClass, $name, $type, $pathElements, $setterBodyCallback);
@@ -90,7 +86,6 @@ class ClassVarGenerator
 
         /**
          * Create getter for attribute value
-         * todo: add docblock for getter
          */
         if (in_array(self::GETTER, $partsToCreate)) {
             self::addAttributeGetter($hostClass, $name, $type, $pathElements, $getterBodyCallback);

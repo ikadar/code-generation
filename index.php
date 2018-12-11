@@ -17,7 +17,6 @@ PrototypeService::init();
 
 $t0 = microtime(true);
 
-// todo: add Proxy to prototyping
 $oneCar = PrototypeService::new('\Wheel\Concept\Car\CarProxy');
 
 //$newColor = PrototypeService::new('\Wheel\Concept\Car\ColorProxy')
