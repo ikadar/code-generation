@@ -39,6 +39,7 @@ class Rubric
 
     public function load(array $data)
     {
+        // TODO 00: here property name and rubric are supposed to be the same, that is wrong
         foreach (array_keys(get_class_vars(static::class)) as $propertyName) {
             if (array_key_exists($propertyName, $data)) {
                 $this->loadAttribute(static::getNameSpace(), $propertyName, $data[$propertyName]);
@@ -48,6 +49,11 @@ class Rubric
 
     public function loadAttribute($class, $attributeName, $data)
     {
+        // Todo 02: maybe we will need to be able to set attribute to null
+        if ($data === null) {
+            return;
+        }
+
         $attributeClassName = $class . Util::pascalize($attributeName);
         $setterMethodName = 'set' . Util::pascalize($attributeName);
 
@@ -77,4 +83,20 @@ class Rubric
         }
         return $data;
     }
+
+    public function cascade($cascadingSourcePaths)
+    {
+        $cascadedValue = null;
+        foreach ($cascadingSourcePaths as $cascadingSourcePath) {
+            $cascadedValue = $this;
+            foreach ($cascadingSourcePath as $cascadingSourceGetter) {
+                $cascadedValue = call_user_func([$cascadedValue, $cascadingSourceGetter]);
+            }
+            if ($cascadedValue !== null) {
+                break;
+            }
+        }
+        return $cascadedValue;
+    }
+
 }
