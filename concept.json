@@ -11,7 +11,11 @@
           "translatable": false,
           "defaultValue": null,
           "isCharacterizing": true,
-          "isCascading": false
+          "isCascading": false,
+          "cascadingSources": [
+            ["getBrand", "getDefaultPlateNumber"],
+            ["getBrand", "getProducer", "getDefaultPlateNumber"]
+          ]
         },
         {
           "name": "brand",
@@ -25,13 +29,31 @@
           "isCharacterizing": false,
           "isCascading": false,
           "allowNewSections": true,
-          "allowExistingSections": true
+          "allowExistingSections": true,
+          "cascadingSources": [
+            ["getPlateNumber"]
+          ]
+
         },
         {
           "name": "color",
           "type": "reference",
           "referredRubrics": [
             "Car.Color"
+          ],
+          "required": false,
+          "translatable": false,
+          "defaultValue": null,
+          "isCharacterizing": false,
+          "isCascading": false,
+          "allowNewSections": false,
+          "allowExistingSections": true
+        },
+        {
+          "name": "owner",
+          "type": "reference",
+          "referredRubrics": [
+            "Car.Person"
           ],
           "required": false,
           "translatable": false,
@@ -68,6 +90,121 @@
     },
     {
       "name": "brand",
+      "attributes": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "translatable": true,
+          "defaultValue": null,
+          "isCharacterizing": true,
+          "isCascading": false
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "required": false,
+          "translatable": false,
+          "defaultValue": null,
+          "isCharacterizing": true,
+          "isCascading": false
+        },
+        {
+          "name": "default_plate_number",
+          "type": "string",
+          "required": false,
+          "translatable": false,
+          "defaultValue": null,
+          "isCharacterizing": false,
+          "isCascading": false
+        },
+        {
+          "name": "producer",
+          "type": "reference",
+          "referredRubrics": [
+            "Car.Producer"
+          ],
+          "required": false,
+          "translatable": false,
+          "defaultValue": null,
+          "isCharacterizing": false,
+          "isCascading": false,
+          "allowNewSections": true,
+          "allowExistingSections": true
+        }
+      ]
+    },
+    {
+      "name": "producer",
+      "attributes": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "translatable": true,
+          "defaultValue": null,
+          "isCharacterizing": true,
+          "isCascading": false
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "required": false,
+          "translatable": false,
+          "defaultValue": null,
+          "isCharacterizing": true,
+          "isCascading": false
+        },
+        {
+          "name": "default_plate_number",
+          "type": "string",
+          "required": false,
+          "translatable": false,
+          "defaultValue": null,
+          "isCharacterizing": false,
+          "isCascading": false
+        }
+      ]
+    },
+    {
+      "name": "person",
+      "attributes": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "translatable": false,
+          "defaultValue": null,
+          "isCharacterizing": true,
+          "isCascading": false
+        },
+        {
+          "name": "age",
+          "type": "number",
+          "required": false,
+          "translatable": false,
+          "defaultValue": null,
+          "isCharacterizing": false,
+          "isCascading": false
+        },
+        {
+          "name": "gender",
+          "type": "reference",
+          "referredRubrics": [
+            "Car.Gender"
+          ],
+          "required": true,
+          "translatable": false,
+          "defaultValue": null,
+          "isCharacterizing": false,
+          "isCascading": false,
+          "allowNewSections": true,
+          "allowExistingSections": true
+        }
+      ]
+    },
+    {
+      "name": "gender",
       "attributes": [
         {
           "name": "name",
