@@ -116,10 +116,25 @@ class RubricClassGenerator extends ClassGenerator
                     '$this->' . $attributeName . '->setValue($' . $attributeName . ');'
                 ];
             },
-            function ($attributeName) {
-                return [
-                    'return $this->' . $attributeName . '->getValue();'
-                ];
+            function ($attributeName) use ($attributeConfiguration) {
+
+                $lines = [];
+
+                $lines[] = '$cascadingSources = [';
+                if (array_key_exists('cascadingSources', $attributeConfiguration)) {
+                    foreach ($attributeConfiguration['cascadingSources'] as $cascadingSourcePath) {
+                        $pathElements = [];
+                        foreach ($cascadingSourcePath as $cascadingSource) {
+                            $pathElements[] = '\'' . $cascadingSource . '\'';
+                        }
+                        $lines[] = "\t" . '[' . implode(', ', $pathElements) . '],';
+                    }
+                }
+                $lines[] = '];';
+
+                $lines[] = 'return $this->' . $attributeName . '->getValue() ?: $this->cascade($cascadingSources);';
+
+                return $lines;
             }
         );
     }
