@@ -134,17 +134,20 @@ class ClassVarGenerator
     {
         $attributeRubricClass = self::getAttributeRubricClass($pathElements, $attributeName);
 
-        $setMethod = $hostClass->class
+        $setterMethod = $hostClass->class
             ->addMethod('set' . Util::pascalize($attributeName))
             ->setVisibility('public');
 
-        $setMethod
+        $setterMethod
             ->addParameter($attributeName)
             ->setTypeHint($type === 'reference' ? $attributeRubricClass : $type);
 
+        $setterMethod->addComment('@param ' . ($type === 'reference' ? $attributeRubricClass : $type) . ' $' . $attributeName);
+        $setterMethod->addComment('@return $this');
+
         $lines = $bodyCallback($attributeName);
-        $setMethod->addBody(implode("\n", $lines));
-        $setMethod->addBody('return $this;');
+        $setterMethod->addBody(implode("\n", $lines));
+        $setterMethod->addBody('return $this;');
     }
 
     /**
@@ -160,10 +163,13 @@ class ClassVarGenerator
 
         $lines = $bodyCallback($attributeName);
 
-        $hostClass->class->addMethod('get' . Util::pascalize($attributeName))
+        $getterMethod = $hostClass->class->addMethod('get' . Util::pascalize($attributeName))
             ->setVisibility('public')
             ->setReturnType($type === 'reference' ? $attributeRubricClass : $type)
             ->addBody(implode("\n", $lines));
+
+        $getterMethod->addComment('@return ' . ($type === 'reference' ? $attributeRubricClass : $type));
+
     }
 
     /**
