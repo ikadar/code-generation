@@ -29,6 +29,7 @@ class AttributeClassGenerator extends ClassGenerator
         $this->parentClass = 'Wheel\Core\Attribute';
         parent::__construct($pathElements);
 
+        // Todo: currently it is not used in generated classes, but it can be. It needs to be rechecked time by time
         $this->nameSpace->addUse('Wheel\\Concept\\PrototypeService');
     }
 
@@ -41,6 +42,23 @@ class AttributeClassGenerator extends ClassGenerator
      */
     function generateAttributeClass($attributeConfiguration)
     {
+        // Todo 01 this map should come from conceptSchema.json. It contains type of attribute class variables. However it is not necessary to proper functionality, only to documentation.
+
+        $typeMap = [
+            "name" => "string",
+            "type" => "string",
+            "required" => "boolean",
+            "translatable" => "boolean",
+            "defaultValue" => "mixed",
+            "isCharacterizing" => "boolean",
+            "isCascading" => "boolean",
+            "referredRubrics" => "array",
+            "allowNewSections" => "boolean",
+            "allowExistingSections" => "boolean",
+            "cascadingSources" => "array",
+        ];
+
+//var_dump($attributeConfiguration);
 
         /**
          * Add attribute to prototype class
@@ -57,7 +75,7 @@ class AttributeClassGenerator extends ClassGenerator
                 ->setVisibility('public')
                 ->setStatic()
                 // todo: add type
-                ->setComment('@var $' . $configurationKey);
+                ->setComment('@var ' . $typeMap[$configurationKey] . ' $' . $configurationKey);
 
             /**
              * Set attribute properties values in constructor
