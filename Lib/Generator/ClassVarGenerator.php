@@ -166,6 +166,8 @@ class ClassVarGenerator
         $getterMethod = $hostClass->class->addMethod('get' . Util::pascalize($attributeName))
             ->setVisibility('public')
             ->setReturnType($type === 'reference' ? $attributeRubricClass : $type)
+            // TODO 02: control this by a parameter
+            ->setReturnNullable()
             ->addBody(implode("\n", $lines));
 
         $getterMethod->addComment('@return ' . ($type === 'reference' ? $attributeRubricClass : $type));
