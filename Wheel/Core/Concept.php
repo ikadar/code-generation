@@ -10,5 +10,12 @@ namespace Wheel\Core;
 
 class Concept
 {
+    /**
+     * Clone
+     */
+    public function __clone()
+    {
+        $this->__construct();
+    }
 
 }

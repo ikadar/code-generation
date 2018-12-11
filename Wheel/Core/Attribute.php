@@ -31,6 +31,14 @@ class Attribute
     }
 
     /**
+     * Clone
+     */
+    public function __clone()
+    {
+        $this->__construct();
+    }
+
+    /**
      * @return null
      */
     public function getValue()

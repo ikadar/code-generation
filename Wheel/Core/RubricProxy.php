@@ -25,6 +25,14 @@ class RubricProxy
         $this->section = PrototypeService::new($className);
     }
 
+    /**
+     * Clone
+     */
+    public function __clone()
+    {
+        $this->__construct();
+    }
+
     public function get()
     {
         return $this->section;

@@ -13,6 +13,15 @@ use Wheel\Concept\PrototypeService;
 
 class Rubric
 {
+
+    /**
+     * Clone
+     */
+    public function __clone()
+    {
+        $this->__construct();
+    }
+
     public function __set($name, $value) {
         throw new \Exception("Cannot add new property \$$name to instance of " . static::class);
     }
