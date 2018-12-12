@@ -17,9 +17,18 @@ class SourcePool
     /**
      * @param $file
      */
-    public static function addSourceFile($file)
+    public static function addSourceFile($file, $tmp = null)
     {
-        self::$sourceFiles[] = $file;
+        /**
+         * This based on the following assumptions:
+         * - one source file belongs to only one namespace
+         * - one source file contains only one class
+         */
+        $namespace = current($file['content']->getNamespaces())->getName();
+        $class = current(current($file['content']->getNamespaces())->getClasses())->getName();
+        $FQName = $namespace . '\\' . $class;
+
+        self::$sourceFiles[$FQName] = $file;
     }
 
     /**
