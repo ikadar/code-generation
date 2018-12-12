@@ -180,7 +180,7 @@
         },
         {
           "name": "age",
-          "type": "number",
+          "type": "int",
           "required": false,
           "translatable": false,
           "defaultValue": null,
