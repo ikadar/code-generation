@@ -11,6 +11,7 @@ namespace Lib\Generator;
 
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\PhpFile;
+use Nette\PhpGenerator\PsrPrinter;
 
 class SourcePool
 {
@@ -97,6 +98,7 @@ class SourcePool
      */
     private static function dumpFile($path, $content)
     {
+        $printer = new PsrPrinter();
         $filePath = explode('/', $path);
         $pathElements = [];
         foreach ($filePath as $loop => $pathItem) {
@@ -107,7 +109,7 @@ class SourcePool
                     mkdir($currentPath, 0777, true);
                 }
             } else {
-                file_put_contents($currentPath, $content);
+                file_put_contents($currentPath, $printer->printFile($content));
             }
         }
 //        echo("\n");
