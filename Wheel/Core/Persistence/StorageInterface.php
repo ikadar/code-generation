@@ -8,7 +8,8 @@
 
 namespace Wheel\Core\Persistence;
 
-interface StorageInterface {
+interface StorageInterface
+{
 
     public function getById($id): array;
 

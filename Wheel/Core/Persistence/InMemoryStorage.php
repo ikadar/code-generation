@@ -11,6 +11,7 @@ namespace Wheel\Core\Persistence;
 
 /**
  * Class InMemoryStorage
+ *
  * @package Wheel\Core\Persistence
  */
 class InMemoryStorage Implements StorageInterface
@@ -23,7 +24,7 @@ class InMemoryStorage Implements StorageInterface
     }
 
     /**
-     * @param $id
+     * @param  $id
      * @return array
      * @throws \Exception
      */
@@ -31,28 +32,27 @@ class InMemoryStorage Implements StorageInterface
     {
         if (array_key_exists($id, self::$storage)) {
             return self::$storage[$id];
-        } else {
-            throw new \Exception('ID not found: ' . $id);
         }
+
+        throw new \Exception('ID not found: ' . $id);
     }
 
     /**
-     * @param callable|null $callable
+     * @param  callable|null $callable
      * @return array
      */
     public function list(callable $callable = null): array
     {
+        $list = self::$storage;
         if ($callable !== null) {
-            $list = array_filter(self::$storage, $callable);
-        } else {
-            $list = self::$storage;
+            $list = array_filter($list, $callable);
         }
 
         return $list;
     }
 
     /**
-     * @param $entity
+     * @param  $entity
      * @return array
      */
     public function add(array $entity): array
@@ -64,7 +64,7 @@ class InMemoryStorage Implements StorageInterface
     }
 
     /**
-     * @param array $entity
+     * @param  array $entity
      * @return array
      * @throws \Exception
      */
@@ -78,7 +78,7 @@ class InMemoryStorage Implements StorageInterface
     }
 
     /**
-     * @param $id
+     * @param  $id
      * @throws \Exception
      */
     public function delete($id): void

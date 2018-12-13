@@ -4,13 +4,16 @@
  * User: istvan
  * Date: 2018. 11. 30.
  * Time: 14:11
+ *
+ * PHP Version 7.1
  */
 
 namespace Wheel\Core\Repository;
 
 use Wheel\Core\RubricProxy;
 
-interface RepositoryInterface {
+interface RepositoryInterface
+{
 
     public function getById($id): RubricProxy;
 

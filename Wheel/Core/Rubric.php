@@ -22,7 +22,8 @@ class Rubric
         $this->__construct();
     }
 
-    public function __set($name, $value) {
+    public function __set($name, $value)
+    {
         throw new \Exception("Cannot add new property \$$name to instance of " . static::class);
     }
 
@@ -32,7 +33,6 @@ class Rubric
         array_pop($namespace);
         $namespace = implode('\\', $namespace);
         $namespace = '\\' . $namespace . '\\';
-//        $namespace .= '\\';
 
         return $namespace;
     }
@@ -73,6 +73,7 @@ class Rubric
         } else {
             $attributeValue = $data;
         }
+
         // todo: calling variable name function should not be used
         $this->$setterMethodName($attributeValue);
     }

@@ -4,6 +4,8 @@
  * User: istvan
  * Date: 2018. 11. 30.
  * Time: 15:04
+ *
+ * PHP Version 7.1
  */
 
 namespace Wheel\Core\Repository;
@@ -14,6 +16,7 @@ use Wheel\Core\RubricProxy;
 
 /**
  * Class BaseRepository
+ *
  * @package Wheel\Core\Repository
  */
 class BaseRepository implements RepositoryInterface
@@ -25,7 +28,8 @@ class BaseRepository implements RepositoryInterface
 
     /**
      * BaseRepository constructor.
-     * @param $storage
+     *
+     * @param StorageInterface $storage
      */
     public function __construct(StorageInterface $storage)
     {
@@ -33,7 +37,7 @@ class BaseRepository implements RepositoryInterface
     }
 
     /**
-     * @param $id
+     * @param  $id
      * @return RubricProxy
      * @throws \Exception
      */
@@ -49,7 +53,7 @@ class BaseRepository implements RepositoryInterface
     }
 
     /**
-     * @param callable|null $callable
+     * @param  callable|null $callable
      * @return array
      * @throws \Exception
      */
@@ -77,7 +81,7 @@ class BaseRepository implements RepositoryInterface
     }
 
     /**
-     * @param RubricProxy $entity
+     * @param  RubricProxy $entity
      * @return RubricProxy
      */
     public function add(RubricProxy $entity): RubricProxy
@@ -90,7 +94,7 @@ class BaseRepository implements RepositoryInterface
     }
 
     /**
-     * @param RubricProxy $entity
+     * @param  RubricProxy $entity
      * @return RubricProxy
      */
     public function edit(RubricProxy $entity): RubricProxy
