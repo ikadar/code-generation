@@ -9,26 +9,72 @@
 namespace Lib\Generator;
 
 
+use Nette\PhpGenerator\ClassType;
+use Nette\PhpGenerator\PhpFile;
+
 class SourcePool
 {
 
     private static $sourceFiles = [];
 
     /**
-     * @param $file
+     * @param array $file Consists of path and content keys
      */
-    public static function addSourceFile($file, $tmp = null)
+    public static function addSourceFile($file)
     {
         /**
-         * This based on the following assumptions:
+         * Key generation based on the following assumptions:
          * - one source file belongs to only one namespace
          * - one source file contains only one class
          */
         $namespace = current($file['content']->getNamespaces())->getName();
         $class = current(current($file['content']->getNamespaces())->getClasses())->getName();
-        $FQName = $namespace . '\\' . $class;
+        $FQName = '\\' . $namespace . '\\' . $class;
 
-        self::$sourceFiles[$FQName] = $file;
+        if (array_key_exists($FQName, self::$sourceFiles)) {
+            self::$sourceFiles[$FQName] = array_merge(self::$sourceFiles[$FQName], $file);
+        } else {
+            self::$sourceFiles[$FQName] = $file;
+        }
+    }
+
+    public static function addImplements($classFQName, $interfaceName)
+    {
+        if (!is_array($interfaceName)) {
+            $interfaceName = [$interfaceName];
+        }
+
+        if (!array_key_exists($classFQName, self::$sourceFiles)) {
+            self::$sourceFiles[$classFQName] = [];
+        }
+
+        if (!array_key_exists('implements', self::$sourceFiles[$classFQName])) {
+            self::$sourceFiles[$classFQName]['implements'] = [];
+        }
+
+        self::$sourceFiles[$classFQName]['implements'] = array_merge(self::$sourceFiles[$classFQName]['implements'], $interfaceName);
+    }
+
+    private static function mergeImplements()
+    {
+        foreach (self::$sourceFiles as $classFQName => $sourceFile) {
+            if (array_key_exists('implements', $sourceFile)) {
+                foreach ($sourceFile['implements'] as $implement) {
+                    $class = current(current($sourceFile['content']->getNamespaces())->getClasses());
+                    $class->addImplement('Wheel\\Concept\\' . $implement);
+
+                    $interfaceFile = new PhpFile();
+                    $interfaceNamespace = $interfaceFile->addNamespace('Wheel\\Concept');
+                    $interfaceClass = $interfaceNamespace->addInterface($implement);
+
+                    self::addSourceFile([
+                        'path' => 'Wheel/Concept/' . $implement . '.php',
+                        'content' => $interfaceFile
+                    ]);
+
+                }
+            }
+        }
     }
 
     /**
@@ -36,7 +82,9 @@ class SourcePool
      */
     public static function dump()
     {
-        // todo: delete concept directory first to avoid from keeping deprecated files from previous code generation
+        self::mergeImplements();
+
+        // todo 03: delete concept directory first to avoid from keeping deprecated files from previous code generation
         foreach (self::$sourceFiles as $sourceFile) {
             self::dumpFile($sourceFile['path'], $sourceFile['content']);
         }
@@ -67,6 +115,14 @@ class SourcePool
 //        echo "\n";
 //        echo $content;
 
+    }
+
+    public static function debug()
+    {
+//        var_dump(self::$sourceFiles);
+        foreach (self::$sourceFiles as $class => $sourceFile) {
+//            var_dump($class);
+        }
     }
 
 }
