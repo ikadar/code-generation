@@ -70,14 +70,6 @@ class Rubric
      */
     protected function loadAttribute($attributeName, $data)
     {
-
-        // Todo 02: maybe we will need to be able to set attribute to null
-        if ($data === null) {
-            return;
-        }
-
-        $setterMethodName = 'set' . Util::pascalize($attributeName);
-
         if (is_array($data)) {
             $pathElements = array_merge(['Wheel', 'Concept'], explode('.', $data['__type']));
             $referredRubricClass = '\\' . implode('\\', $pathElements);
@@ -92,6 +84,7 @@ class Rubric
         }
 
         // call attribute setter method of rubric class
+        $setterMethodName = 'set' . Util::pascalize($attributeName);
         call_user_func_array([$this, $setterMethodName], [$attributeValue]);
     }
 
