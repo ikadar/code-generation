@@ -39,7 +39,6 @@ class Rubric
 
     public function load(array $data)
     {
-        // TODO 00: here property name and rubric are supposed to be the same, that is wrong
         foreach (array_keys(get_class_vars(static::class)) as $propertyName) {
             if (array_key_exists($propertyName, $data)) {
                 $this->loadAttribute(static::getNameSpace(), $propertyName, $data[$propertyName]);
@@ -54,16 +53,23 @@ class Rubric
             return;
         }
 
-        $attributeClassName = $class . Util::pascalize($attributeName);
         $setterMethodName = 'set' . Util::pascalize($attributeName);
 
         if (is_array($data)) {
-            $attributeValue = PrototypeService::new($attributeClassName);
-//            $attributeValue = new $attributeClassName();
+
+            $r = new \ReflectionClass(get_class($this->$attributeName));
+            $referredRubrics = $r->getStaticPropertyValue('referredRubrics');
+
+            // TODO 00: here we must know the type (class) of the attribute we have to instantiate. It should be present in the data to load.
+
+            $pathElements = array_merge(['Wheel', 'Concept'], explode('.', $referredRubrics[0]));
+            $referredRubricClass = '\\' . implode('\\', $pathElements);
+
+            $attributeValue = PrototypeService::new($referredRubricClass);
             $attributeValue->load($data);
+
         } else if (is_object($data)) {
             $attributeValue = $data->get();
-//            $attributeValue = $data;
         } else {
             $attributeValue = $data;
         }
