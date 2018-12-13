@@ -59,7 +59,7 @@ class SourcePool
     {
         foreach (self::$sourceFiles as $classFQName => $sourceFile) {
             if (array_key_exists('implements', $sourceFile)) {
-                foreach ($sourceFile['implements'] as $implement) {
+                foreach (array_unique($sourceFile['implements']) as $implement) {
                     $class = current(current($sourceFile['content']->getNamespaces())->getClasses());
                     // Todo 03: add "use" to class in order to use the short name in implemented interface
                     $class->addImplement('Wheel\\Concept\\' . $implement);
