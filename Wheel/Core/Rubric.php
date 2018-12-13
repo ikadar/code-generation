@@ -46,8 +46,9 @@ class Rubric
         }
     }
 
-    public function loadAttribute($class, $attributeName, $data)
+    public function loadAttribute($attributeName, $data)
     {
+
         // Todo 02: maybe we will need to be able to set attribute to null
         if ($data === null) {
             return;
@@ -56,13 +57,7 @@ class Rubric
         $setterMethodName = 'set' . Util::pascalize($attributeName);
 
         if (is_array($data)) {
-
-            $r = new \ReflectionClass(get_class($this->$attributeName));
-            $referredRubrics = $r->getStaticPropertyValue('referredRubrics');
-
-            // TODO 00: here we must know the type (class) of the attribute we have to instantiate. It should be present in the data to load.
-
-            $pathElements = array_merge(['Wheel', 'Concept'], explode('.', $referredRubrics[0]));
+            $pathElements = array_merge(['Wheel', 'Concept'], explode('.', $data['__type']));
             $referredRubricClass = '\\' . implode('\\', $pathElements);
 
             $attributeValue = PrototypeService::new($referredRubricClass);
@@ -74,13 +69,18 @@ class Rubric
             $attributeValue = $data;
         }
 
-        // todo: calling variable name function should not be used
-        $this->$setterMethodName($attributeValue);
+        // call attribute setter method of rubric class
+        call_user_func_array([$this, $setterMethodName], [$attributeValue]);
     }
 
     public function getData(): array
     {
+        // TODO 03: move this into path builder class
         $data = get_object_vars($this);
+        $pathElements = explode('\\', get_class($this));
+        array_shift($pathElements); // remove "Wheel"
+        array_shift($pathElements); // remove concept
+
         foreach ($data as $attributeName => $attribute) {
             if (is_a($attribute->getValue(), Rubric::class)) {
                 $data[$attributeName] = $attribute->getValue()->getData();
@@ -88,6 +88,9 @@ class Rubric
                 $data[$attributeName] = $attribute->getValue();
             }
         }
+
+        $data['__type'] = implode('.', $pathElements); // dotted Wheel path of rubric
+
         return $data;
     }
 

@@ -20,43 +20,64 @@ $repository = new BaseRepository($storage);
 
 $cars = [
     [
+        '__type' => 'Car.Car',
         'plate_number' => 'AG-27-44',
         'color' => [
+            '__type' => 'Car.Color',
             'name' => 'Green',
             'code' => 'green',
         ],
         'brand' => [
+            '__type' => 'Car.Brand',
             'name' => 'Wartburg',
             'code' => 'wartburg',
         ]
     ],
     [
+        '__type' => 'Car.Car',
         'plate_number' => 'TZ-41-72',
         'color' => [
+            '__type' => 'Car.Color',
             'name' => 'Red',
             'code' => 'red',
         ],
         'brand' => [
+            '__type' => 'Car.Brand',
             'name' => 'Trabant',
             'code' => 'trabant',
         ]
     ],
     [
-        'plate_number' => 'GH-33-17',
+        '__type' => 'Car.Car',
+//        'plate_number' => 'GH-33-17',
         'color' => [
+//            '__type' => 'Car.Brand',
+            '__type' => 'Car.Color',
             'name' => 'Blue',
             'code' => 'blue',
         ],
         'brand' => [
+            '__type' => 'Car.Brand',
             'name' => 'Lada',
             'code' => 'lada',
             'producer' => [
+                '__type' => 'Car.Producer',
                 'name' => 'Lada Factory',
                 'code' => 'lada_factory',
                 'default_plate_number' => 'LADA-FAC-001'
             ],
 //            'default_plate_number' => 'LADA-001'
         ],
+        'owner' => [
+            '__type' => 'Car.Person',
+            'name' => 'John Doe',
+            'age' => 30,
+            'gender' => [
+                '__type' => 'Car.Gender',
+                'name' => 'Male',
+                'code' => 'male'
+            ]
+        ]
     ]
 ];
 
@@ -83,6 +104,9 @@ $entity = $repository->getById($entity->id);
 var_dump($entity->getPlateNumber());
 var_dump($entity->getColor()->getName());
 var_dump($entity->getBrand()->getName());
+var_dump($entity->getOwner()->getName());
+var_dump($entity->getOwner()->getAge());
+var_dump($entity->getOwner()->getGender()->getName());
 
 
 $yellowColor = PrototypeService::new('\Wheel\Concept\Car\ColorProxy');
@@ -98,7 +122,7 @@ $repository->edit($entity);
 
 $repository->delete($entity->id);
 $list = $repository->list();
-print_r($list);
+//print_r($list);
 //var_dump($list);
 
 //$entity = $list[0];
@@ -108,4 +132,4 @@ print_r($list);
 
 //echo($presenter->getData());
 
-//var_dump(round($t1-$t0, 4));
+var_dump(round($t1-$t0, 4));
