@@ -12,6 +12,7 @@ use Wheel\Concept\PrototypeService;
 
 /**
  * Class RubricProxy
+ *
  * @package Wheel\Core
  */
 class RubricProxy
@@ -29,7 +30,8 @@ class RubricProxy
 
     /**
      * RubricProxy constructor.
-     * @param $className
+     *
+     * @param  $className
      * @throws \Exception
      */
     public function __construct($className)

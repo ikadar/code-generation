@@ -13,6 +13,7 @@ use Wheel\Concept\PrototypeService;
 
 /**
  * Class Rubric
+ *
  * @package Wheel\Core
  */
 class Rubric
@@ -27,8 +28,8 @@ class Rubric
     }
 
     /**
-     * @param $name
-     * @param $value
+     * @param  $name
+     * @param  $value
      * @throws \Exception
      */
     public function __set($name, $value)
@@ -50,7 +51,8 @@ class Rubric
     }
 
     /**
-     * @param array $data
+     * @param  array $data
+     * @throws \Exception
      */
     public function load(array $data)
     {
@@ -62,11 +64,11 @@ class Rubric
     }
 
     /**
-     * @param $attributeName
-     * @param $data
+     * @param  $attributeName
+     * @param  $data
      * @throws \Exception
      */
-    public function loadAttribute($attributeName, $data)
+    protected function loadAttribute($attributeName, $data)
     {
 
         // Todo 02: maybe we will need to be able to set attribute to null
@@ -118,7 +120,7 @@ class Rubric
     }
 
     /**
-     * @param $cascadingSourcePaths
+     * @param  $cascadingSourcePaths
      * @return mixed|null|Rubric
      */
     public function cascade($cascadingSourcePaths)

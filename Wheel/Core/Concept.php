@@ -10,6 +10,7 @@ namespace Wheel\Core;
 
 /**
  * Class Concept
+ *
  * @package Wheel\Core
  */
 class Concept

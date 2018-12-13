@@ -12,6 +12,7 @@ use Lib\Util;
 
 /**
  * Class Attribute
+ *
  * @package Wheel\Core
  */
 class Attribute
