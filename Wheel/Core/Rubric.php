@@ -11,6 +11,10 @@ namespace Wheel\Core;
 use Lib\Util;
 use Wheel\Concept\PrototypeService;
 
+/**
+ * Class Rubric
+ * @package Wheel\Core
+ */
 class Rubric
 {
 
@@ -22,11 +26,19 @@ class Rubric
         $this->__construct();
     }
 
+    /**
+     * @param $name
+     * @param $value
+     * @throws \Exception
+     */
     public function __set($name, $value)
     {
         throw new \Exception("Cannot add new property \$$name to instance of " . static::class);
     }
 
+    /**
+     * @return array|string
+     */
     public static function getNameSpace()
     {
         $namespace = explode('\\', static::class);
@@ -37,6 +49,9 @@ class Rubric
         return $namespace;
     }
 
+    /**
+     * @param array $data
+     */
     public function load(array $data)
     {
         foreach (array_keys(get_class_vars(static::class)) as $propertyName) {
@@ -46,6 +61,11 @@ class Rubric
         }
     }
 
+    /**
+     * @param $attributeName
+     * @param $data
+     * @throws \Exception
+     */
     public function loadAttribute($attributeName, $data)
     {
 
@@ -73,6 +93,9 @@ class Rubric
         call_user_func_array([$this, $setterMethodName], [$attributeValue]);
     }
 
+    /**
+     * @return array
+     */
     public function getData(): array
     {
         // TODO 03: move this into path builder class
@@ -94,6 +117,10 @@ class Rubric
         return $data;
     }
 
+    /**
+     * @param $cascadingSourcePaths
+     * @return mixed|null|Rubric
+     */
     public function cascade($cascadingSourcePaths)
     {
         $cascadedValue = null;

@@ -10,6 +10,10 @@ namespace Wheel\Core;
 
 use Wheel\Concept\PrototypeService;
 
+/**
+ * Class RubricProxy
+ * @package Wheel\Core
+ */
 class RubricProxy
 {
 
@@ -18,8 +22,16 @@ class RubricProxy
      */
     protected $section = null;
 
+    /**
+     * @var
+     */
     public $id;
 
+    /**
+     * RubricProxy constructor.
+     * @param $className
+     * @throws \Exception
+     */
     public function __construct($className)
     {
         $this->section = PrototypeService::new($className);
@@ -33,21 +45,33 @@ class RubricProxy
         $this->__construct();
     }
 
+    /**
+     * @return Rubric
+     */
     public function get()
     {
         return $this->section;
     }
 
+    /**
+     * @return array
+     */
     public function getData()
     {
         return $this->section->getData();
     }
 
+    /**
+     * @return string
+     */
     public function getRubricClass()
     {
         return get_class($this->section);
     }
 
+    /**
+     * @param array $data
+     */
     public function load(array $data)
     {
         $this->section->load($data);
