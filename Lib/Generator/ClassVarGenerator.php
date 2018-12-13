@@ -140,7 +140,7 @@ class ClassVarGenerator
 
         $setterMethod
             ->addParameter($attributeName)
-            // TODO 01: there won't be "reference" type
+            // TODO 02: there won't be "reference" type
             ->setTypeHint($type === 'reference' ? $attributeRubricClass : $type);
 
         $setterMethod->addComment('@param ' . ($type === 'reference' ? $attributeRubricClass : $type) . ' $' . $attributeName);

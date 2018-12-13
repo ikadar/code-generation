@@ -42,7 +42,7 @@ class AttributeClassGenerator extends ClassGenerator
      */
     function generateAttributeClass($attributeConfiguration)
     {
-        // Todo 01 this map should come from conceptSchema.json. It contains type of attribute class variables. However it is not necessary to proper functionality, only to documentation.
+        // Todo 02: this map should come from conceptSchema.json. It contains type of attribute class variables. However it is not necessary to proper functionality, only to documentation.
 
         $typeMap = [
             "name" => "string",
