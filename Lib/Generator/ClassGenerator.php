@@ -97,10 +97,33 @@ abstract class ClassGenerator
     protected abstract function getClassDocBlock();
 
     /**
-     * todo: This should be only in CRA class generators
+     * todo 08: This should be only in CRA class generators
      *
      * @return mixed
      */
     protected abstract function buildWheelDottedPath();
+
+
+    public static function createInterfaceForReferenceTypes($referredRubrics)
+    {
+        // In case of reference we have create a new Interface, and this will be the return type / parameter type hint
+        // in the generated code
+        // TODO 01: clean up this code
+        $interfaceName = '';
+        $types = [];
+        foreach ($referredRubrics as $referredRubric) {
+            $interfaceName .= $referredRubric;
+            $pathElements = array_merge(['Wheel', 'Concept'], explode('.', $referredRubric));
+            $type = '\\' . implode('\\', $pathElements);
+            $types[] = $type;
+        }
+        $interfaceName = str_replace('.', '', $interfaceName);
+
+        foreach ($types as $type) {
+            SourcePool::addImplements($type, $interfaceName);
+        }
+
+        return 'Wheel\\Concept\\' . $interfaceName;
+    }
 
 }

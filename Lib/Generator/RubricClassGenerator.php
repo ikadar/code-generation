@@ -98,10 +98,16 @@ class RubricClassGenerator extends ClassGenerator
      */
     private function addAttribute($attributeConfiguration, $attributePathElements)
     {
+        $type = $attributeConfiguration['type'];
+
+        if ($type === 'reference') {
+            $type = ClassGenerator::createInterfaceForReferenceTypes($attributeConfiguration['referredRubrics']);
+        }
+
         ClassVarGenerator::addClassVar(
             $this,
             $attributeConfiguration['name'],
-            $attributeConfiguration['type'],
+            $type,
             null,
             $attributePathElements,
             [
