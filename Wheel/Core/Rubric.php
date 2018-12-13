@@ -58,7 +58,7 @@ class Rubric
     {
         foreach (array_keys(get_class_vars(static::class)) as $propertyName) {
             if (array_key_exists($propertyName, $data)) {
-                $this->loadAttribute(static::getNameSpace(), $propertyName, $data[$propertyName]);
+                $this->loadAttribute($propertyName, $data[$propertyName]);
             }
         }
     }
