@@ -43,7 +43,7 @@ class PrototypeClassGenerator
 //            ->setExtends($this->parentClass)
 //            ->addComment($this->getClassDocBlock())
         ;
-        self::$class->setFinal();
+//        self::$class->setFinal();
 
         $prototypesArray = self::$class->addProperty('prototypes')->setStatic()->setVisibility('protected');
         $prototypesArray->setValue([]);
