@@ -8,9 +8,11 @@
 
 require __DIR__ . '/bootstrap.php';
 
-use Wheel\Auto\PrototypeService;
 use Wheel\Core\Repository\BaseRepository;
 use Wheel\Core\Persistence\InMemoryStorage;
+use Wheel\Core\PrototypeService;
+
+PrototypeService::init();
 
 
 $storage = new InMemoryStorage();
@@ -20,7 +22,7 @@ $repository = new BaseRepository($storage);
 $cars = [
     [
         '__type' => 'Car.Car',
-        'plate_number' => 'AG-27-44',
+        'plate_number' => 'ag-27-44',
         'color' => [
             '__type' => 'Car.Color',
             'name' => 'Green',
@@ -34,7 +36,7 @@ $cars = [
     ],
     [
         '__type' => 'Car.Car',
-        'plate_number' => 'TZ-41-72',
+        'plate_number' => 'tz-41-72',
         'color' => [
             '__type' => 'Car.Color',
             'name' => 'Red',
@@ -48,7 +50,7 @@ $cars = [
     ],
     [
         '__type' => 'Car.Car',
-//        'plate_number' => 'GH-33-17',
+//        'plate_number' => 'gh-33-17',
         'color' => [
 //            '__type' => 'Car.Brand',
             '__type' => 'Car.Color',
@@ -57,15 +59,17 @@ $cars = [
         ],
         'brand' => [
             '__type' => 'Car.Brand',
+            // TODO 01: Why 'name' => 19 doesn't throw an exception
+//            'name' => 19,
             'name' => 'Lada',
             'code' => 'lada',
             'producer' => [
                 '__type' => 'Car.Producer',
                 'name' => 'Lada Factory',
                 'code' => 'lada_factory',
-                'default_plate_number' => 'LADA-FAC-001'
+                'default_plate_number' => 'lada-fac-001'
             ],
-//            'default_plate_number' => 'LADA-001'
+//            'default_plate_number' => 'lada-001'
         ],
         'owner' => [
             '__type' => 'Car.Person',
@@ -86,7 +90,6 @@ foreach ($cars as $carData) {
     $car->load($carData);
     $repository->add($car);
 }
-
 //$repository->dump();
 
 $t0 = microtime(true);

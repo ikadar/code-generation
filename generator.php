@@ -7,7 +7,7 @@
  */
 
 //passthru('ls -la Wheel/Concept', $result);
-passthru('rm -rf Wheel/Concept', $result);
+//passthru('rm -rf Wheel/Concept', $result);
 passthru('rm -rf Wheel/Auto', $result);
 
 //var_dump($result);

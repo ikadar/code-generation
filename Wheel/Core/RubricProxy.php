@@ -73,6 +73,7 @@ class RubricProxy
 
     /**
      * @param array $data
+     * @throws \Exception
      */
     public function load(array $data)
     {
