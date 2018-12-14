@@ -10,7 +10,7 @@
 
 namespace Wheel\Core\Repository;
 
-use Wheel\Concept\PrototypeService;
+use Wheel\Auto\PrototypeService;
 use Wheel\Core\Persistence\StorageInterface;
 use Wheel\Core\RubricProxy;
 
@@ -45,7 +45,13 @@ class BaseRepository implements RepositoryInterface
     {
         $data = $this->storage->getById($id);
         // Todo: implement a better way that allows rubric class to get its proxy class
-        $entity = PrototypeService::new($data['@class'] . 'Proxy');
+        $classPathElements = array_filter(explode('\\', $data['@class']));
+        array_shift($classPathElements); // remove "Wheel"
+        array_shift($classPathElements); // remove "Auto"
+        array_shift($classPathElements); // remove "Concept"
+
+
+        $entity = PrototypeService::new('\\' . implode('\\', $classPathElements) . 'Proxy');
         $entity->load($data);
         $entity->id = $id;
         return $entity;
@@ -70,7 +76,11 @@ class BaseRepository implements RepositoryInterface
          */
         foreach ($list as $id => $data) {
             // Todo: implement a better way that allows rubric class to get its proxy class
-            $entity = PrototypeService::new($data['@class'] . 'Proxy');
+            $classPathElements = array_filter(explode('\\', $data['@class']));
+            array_shift($classPathElements); // remove "Wheel"
+            array_shift($classPathElements); // remove "Auto"
+            array_shift($classPathElements); // remove "Concept"
+            $entity = PrototypeService::new('\\' . implode('\\', $classPathElements) . 'Proxy');
             $entity->load($data);
             $entity->id = $id;
             unset($list[$id]);

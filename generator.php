@@ -6,7 +6,15 @@
  * Time: 23:17
  */
 
-require __DIR__ . '/vendor/autoload.php';
+//passthru('ls -la Wheel/Concept', $result);
+passthru('rm -rf Wheel/Concept', $result);
+passthru('rm -rf Wheel/Auto', $result);
+
+//var_dump($result);
+
+//die();
+
+require __DIR__ . '/bootstrap.php';
 
 use Lib\Generator\PrototypeClassGenerator;
 use Lib\Generator\SourcePool;
@@ -21,7 +29,7 @@ if (!array_key_exists(1, $argv)) {
 /**
  * Initialize prototype class
  */
-PrototypeClassGenerator::initialize(['Wheel', 'Concept']);
+PrototypeClassGenerator::initialize();
 
 // Generate concept
 $generator = new \Lib\Generator\GeneratorService();
@@ -33,4 +41,6 @@ SourcePool::addSourceFile([
 ]);
 
 SourcePool::dump();
+
+SourcePool::debug();
 

@@ -8,6 +8,7 @@
 
 namespace Lib\Generator;
 
+use Lib\Util;
 use Nette\PhpGenerator\PhpFile;
 
 /**
@@ -17,18 +18,18 @@ use Nette\PhpGenerator\PhpFile;
  *
  * @package Lib\Generator
  */
-
 class PrototypeClassGenerator
 {
 
     private static $prototypeClassSource;
     private static $nameSpace;
     private static $class;
-    private static $initializer;
-    private static $keyInitializer;
     private static $pathElements;
+    private static $assignmentsArray;
 
-    public static function initialize(array $pathElements) {
+    public static function initialize()
+    {
+        $pathElements = explode('\\', Util::getAutoGenNS());
 
         self::$pathElements = $pathElements;
         array_push(self::$pathElements, 'PrototypeService');
@@ -44,21 +45,19 @@ class PrototypeClassGenerator
         ;
         self::$class->setFinal();
 
-        self::$class->addProperty('prototypes')->setStatic()->setVisibility('protected');
+        $prototypesArray = self::$class->addProperty('prototypes')->setStatic()->setVisibility('protected');
+        $prototypesArray->setValue([]);
 
-        self::$keyInitializer = self::$class->addMethod("initKeys")->setVisibility('private')->setStatic();
-        self::$keyInitializer->addBody('self::$prototypes = [];');
-
-        self::$initializer = self::$class->addMethod("init")->setVisibility('public')->setStatic();
-        self::$initializer->addBody('self::initKeys();');
+        self::$assignmentsArray = self::$class->addProperty('assignments')->setStatic()->setVisibility('protected');
+        self::$assignmentsArray->setValue([]);
 
         $instantiateMethod = self::$class->addMethod("new");
         $instantiateMethod->setStatic();
-        // todo: move this into parent class
+        // todo 02: move this into parent class
         $instantiateMethod->addParameter('className')->setTypeHint('string');
-        $instantiateMethod->addBody('if (array_key_exists($className, self::$prototypes)) {');
-        $instantiateMethod->addBody('    if (self::$prototypes[$className] === null) {');
-        $instantiateMethod->addBody('        self::$prototypes[$className] = new $className();');
+        $instantiateMethod->addBody('if (array_key_exists($className, self::$assignments)) {');
+        $instantiateMethod->addBody('    if (!array_key_exists($className, self::$prototypes)) {');
+        $instantiateMethod->addBody('        self::$prototypes[$className] = new self::$assignments[$className]();');
         $instantiateMethod->addBody('    }');
         $instantiateMethod->addBody('    return clone self::$prototypes[$className];');
         $instantiateMethod->addBody('} else {');
@@ -68,8 +67,16 @@ class PrototypeClassGenerator
 
     public static function addClass($classFQName)
     {
-        self::$keyInitializer->addBody('self::$prototypes["' . $classFQName . '"] = null;');
-        self::$initializer->addBody('self::$prototypes["' . $classFQName . '"] = new ' . $classFQName . '();');
+        $prototypeKey = array_filter(explode('\\', $classFQName));
+        array_shift($prototypeKey); // remove "Wheel"
+        array_shift($prototypeKey); // remove "Auto"
+        array_shift($prototypeKey); // remove "Concept"
+        $prototypeKey = ('\\' . implode('\\', $prototypeKey));
+
+        $assignments = self::$assignmentsArray->getValue();
+        $assignments[$prototypeKey] = $classFQName;
+        self::$assignmentsArray->setValue($assignments);
+
     }
 
     public static function getSource(): PhpFile

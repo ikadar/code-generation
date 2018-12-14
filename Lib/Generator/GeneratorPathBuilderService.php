@@ -26,7 +26,7 @@ class GeneratorPathBuilderService
      */
     public static function getConceptRootRelativePathElements($pathElements)
     {
-        $conceptRootDirElements = explode('/', GeneratorService::$conceptsRootDir);
+        $conceptRootDirElements = explode('\\', Util::getAutoGenConceptNS());
         return array_merge($conceptRootDirElements, $pathElements);
     }
 

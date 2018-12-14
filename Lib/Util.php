@@ -21,8 +21,8 @@ class Util
                 '',
                 array_map(
                     'ucfirst',
-                        explode(
-                            '_', $scored))));
+                    explode(
+                        '_', $scored))));
 //        return lcfirst(
 //            implode(
 //                '',
@@ -52,6 +52,42 @@ class Util
     static function pascalize($string)
     {
         return ucfirst(self::camelize($string));
+    }
+
+    public static function getAutoGenConceptNS(): string
+    {
+        return implode('\\', [\Configuration::get('WHEEL_NAMESPACE'), \Configuration::get('AUTO_CONCEPT_NAMESPACE')]);
+    }
+
+    public static function getAutoGenNS(): string
+    {
+        return implode('\\', [\Configuration::get('WHEEL_NAMESPACE'), \Configuration::get('AUTO_NAMESPACE')]);
+    }
+
+    public static function getCoreNS(): string
+    {
+        return implode('\\', [\Configuration::get('WHEEL_NAMESPACE'), \Configuration::get('CORE_NAMESPACE')]);
+    }
+
+    public static function addTrailingAutoGenConceptNS(string $className): string
+    {
+        return implode('\\', [self::getAutoGenConceptNS(), $className]);
+    }
+
+    public static function addTrailingAutoGenNS(string $className): string
+    {
+        return implode('\\', [self::getAutoGenNS(), $className]);
+    }
+
+    public static function addTrailingCoreNS(string $className): string
+    {
+        return implode('\\', [self::getCoreNS(), $className]);
+    }
+
+    public static function FQNameToPath(string $FQName, string $directorySeparator = '/'): string
+    {
+        $pathElements = explode('\\', $FQName);
+        return implode($directorySeparator, $pathElements) . '.php';
     }
 
 }

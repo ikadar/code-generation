@@ -26,11 +26,11 @@ class AttributeClassGenerator extends ClassGenerator
      */
     public function __construct($pathElements)
     {
-        $this->parentClass = 'Wheel\Core\Attribute';
+        $this->parentClass = Util::addTrailingCoreNS('Attribute');
         parent::__construct($pathElements);
 
         // Todo: currently it is not used in generated classes, but it can be. It needs to be rechecked time by time
-        $this->nameSpace->addUse('Wheel\\Concept\\PrototypeService');
+        $this->nameSpace->addUse(Util::addTrailingAutoGenConceptNS('PrototypeService'));
     }
 
     /**

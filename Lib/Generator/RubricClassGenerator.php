@@ -24,10 +24,10 @@ class RubricClassGenerator extends ClassGenerator
      */
     public function __construct($pathElements)
     {
-        $this->parentClass = 'Wheel\Core\Rubric';
+        $this->parentClass = Util::addTrailingCoreNS('Rubric');
         parent::__construct($pathElements);
 
-        $this->nameSpace->addUse('Wheel\\Concept\\PrototypeService');
+        $this->nameSpace->addUse(Util::addTrailingAutoGenConceptNS('PrototypeService'));
 
         $this->proxyGenerator = new RubricProxyClassGenerator($pathElements);
     }

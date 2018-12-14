@@ -9,7 +9,7 @@
 namespace Wheel\Core;
 
 use Lib\Util;
-use Wheel\Concept\PrototypeService;
+use Wheel\Auto\PrototypeService;
 
 /**
  * Class Rubric
@@ -70,18 +70,20 @@ class Rubric
      */
     protected function loadAttribute($attributeName, $data)
     {
+        $attributeValue = null;
+
         if (is_array($data)) {
-            $pathElements = array_merge(['Wheel', 'Concept'], explode('.', $data['__type']));
+            $pathElements = explode('.', $data['__type']);
+//            $pathElements = array_merge(explode('\\', Util::getAutoGenConceptNS()), explode('.', $data['__type']));
             $referredRubricClass = '\\' . implode('\\', $pathElements);
 
             $attributeValue = PrototypeService::new($referredRubricClass);
             $attributeValue->load($data);
-
         } else if (is_object($data)) {
             $attributeValue = $data->get();
-        } else {
-            $attributeValue = $data;
         }
+
+        $attributeValue = $attributeValue ?: $data;
 
         // call attribute setter method of rubric class
         $setterMethodName = 'set' . Util::pascalize($attributeName);
@@ -96,6 +98,7 @@ class Rubric
         // TODO 03: move this into path builder class
         $data = get_object_vars($this);
         $pathElements = explode('\\', get_class($this));
+        array_shift($pathElements); // remove "Auto"
         array_shift($pathElements); // remove "Wheel"
         array_shift($pathElements); // remove concept
 
@@ -108,6 +111,7 @@ class Rubric
         }
 
         $data['__type'] = implode('.', $pathElements); // dotted Wheel path of rubric
+//        var_dump($data);
 
         return $data;
     }

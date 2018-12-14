@@ -26,10 +26,10 @@ class ConceptClassGenerator extends ClassGenerator
      */
     public function __construct($pathElements)
     {
-        $this->parentClass = 'Wheel\Core\Concept';
+        $this->parentClass = Util::addTrailingCoreNS('Concept');
         parent::__construct($pathElements);
 
-        $this->nameSpace->addUse('Wheel\\Concept\\PrototypeService');
+//        $this->nameSpace->addUse(Util::addTrailingAutoGenConceptNS('PrototypeService'));
     }
 
     /**

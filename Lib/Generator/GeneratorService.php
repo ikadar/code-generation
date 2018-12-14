@@ -10,6 +10,7 @@ namespace Lib\Generator;
 
 use Lib\Generator\ConceptClassGenerator;
 use Lib\Generator\GeneratorPathBuilderService;
+use Lib\Util;
 use Seld\JsonLint\JsonParser;
 
 /**
@@ -18,7 +19,6 @@ use Seld\JsonLint\JsonParser;
  */
 class GeneratorService
 {
-
     /**
      * @var array $conceptSourceFiles
      */
@@ -30,7 +30,6 @@ class GeneratorService
     /**
      * @var string
      */
-    public static $conceptsRootDir = 'Wheel/Concept';
 
     /**
      * @param $conceptJsonFile

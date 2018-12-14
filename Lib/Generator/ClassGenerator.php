@@ -8,6 +8,7 @@
 
 namespace Lib\Generator;
 
+use Lib\Util;
 use Nette\PhpGenerator\PhpFile;
 
 /**
@@ -64,6 +65,7 @@ abstract class ClassGenerator
 
         GeneratorService::addFileCommentBlock($this->file);
         $this->nameSpace = $this->file->addNamespace(GeneratorPathBuilderService::buildNameSpace($this->pathElements));
+        $this->nameSpace->addUse('Wheel\\Auto\\PrototypeService');
 
         $this->class = $this->nameSpace
             ->addClass($this->className)
@@ -113,7 +115,7 @@ abstract class ClassGenerator
         $types = [];
         foreach ($referredRubrics as $referredRubric) {
             $interfaceName .= $referredRubric;
-            $pathElements = array_merge(['Wheel', 'Concept'], explode('.', $referredRubric));
+            $pathElements = array_merge(explode('\\', Util::getAutoGenConceptNS()), explode('.', $referredRubric));
             $type = '\\' . implode('\\', $pathElements);
             $types[] = $type;
         }
@@ -123,7 +125,7 @@ abstract class ClassGenerator
             SourcePool::addImplements($type, $interfaceName);
         }
 
-        return 'Wheel\\Concept\\' . $interfaceName;
+        return Util::addTrailingAutoGenConceptNS($interfaceName);
     }
 
 }

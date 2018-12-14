@@ -117,10 +117,13 @@ class ClassVarGenerator
      */
     protected static function addAttributeInstantiation($hostClass, $attributeName, $alias, $pathElements)
     {
-//        $this->car = PrototypeService::get('\Wheel\Concept\Car\Car');
+        array_shift($pathElements); // remove "Wheel"
+        array_shift($pathElements); // remove "Auto"
+        array_shift($pathElements); // remove "Concept"
+//        var_dump($pathElements);die();
 
-        $hostClass->class->getMethod('__construct')->addBody('$this->' . $attributeName . ' = PrototypeService::new(\'' . GeneratorPathBuilderService::buildFQName($pathElements) . '\');');
-//        $hostClass->class->getMethod('__construct')->addBody('$this->' . $attributeName . ' = new ' . $alias . '();');
+        $hostClass->class->getMethod('__construct')
+            ->addBody('$this->' . $attributeName . ' = PrototypeService::new(\'' . GeneratorPathBuilderService::buildFQName($pathElements) . '\');');
     }
 
     /**

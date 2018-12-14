@@ -20,34 +20,27 @@ use Lib\Util;
 class RubricProxyClassGenerator extends ClassGenerator
 {
 
-    private $sectionLoaderMethod;
-
     /**
      * RubricProxyClassGenerator constructor.
      * @param $pathElements
      */
     public function __construct($proxiedClassPathElements)
     {
-        $this->parentClass = 'Wheel\Core\RubricProxy';
+        $this->parentClass = Util::addTrailingCoreNS('RubricProxy');
         $this->pathElements = $this->buildProxyClassPathElements($proxiedClassPathElements);
         parent::__construct($this->pathElements);
 
-        $this->nameSpace->addUse('Wheel\\Concept\\PrototypeService');
+        $this->nameSpace->addUse(Util::addTrailingAutoGenConceptNS('PrototypeService'));
+
+        // TODO 02: do it well
+        array_shift($proxiedClassPathElements); // remove "Wheel"
+        array_shift($proxiedClassPathElements); // remove "Auto"
+        array_shift($proxiedClassPathElements); // remove "Concept"
 
         $this->constructor->addBody('$this->section = PrototypeService::new(\'' . GeneratorPathBuilderService::buildFQName($proxiedClassPathElements) . '\');');
 
-//        $this->generateLoaderMethod();
-
         PrototypeClassGenerator::addClass(GeneratorPathBuilderService::buildFQName($this->pathElements));
-
     }
-
-//    private function generateLoaderMethod()
-//    {
-//        $this->sectionLoaderMethod = $this->class->addMethod('load');
-//        $this->sectionLoaderMethod->addParameter('data')->setTypeHint('array');
-//        $this->sectionLoaderMethod->addBody('$this->section->load($data);');
-//    }
 
     /**
      * @return mixed

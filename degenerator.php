@@ -8,6 +8,7 @@
 
 use Kdyby\ParseUseStatements\UseStatements;
 use Wheel\Concept\PrototypeService;
+use Lib\Util;
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -15,7 +16,7 @@ PrototypeService::init();
 
 
 $conceptName = 'Car';
-$conceptFQName = 'Wheel\\Concept\\' . $conceptName;
+$conceptFQName = Util::addTrailingAutoGenConceptNS($conceptName);
 
 $factory  = \phpDocumentor\Reflection\DocBlockFactory::createInstance();
 

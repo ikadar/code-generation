@@ -6,13 +6,12 @@
  * Time: 23:17
  */
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/bootstrap.php';
 
-use Wheel\Concept\PrototypeService;
+use Wheel\Auto\PrototypeService;
 use Wheel\Core\Repository\BaseRepository;
 use Wheel\Core\Persistence\InMemoryStorage;
 
-PrototypeService::init();
 
 $storage = new InMemoryStorage();
 
@@ -83,7 +82,7 @@ $cars = [
 
 
 foreach ($cars as $carData) {
-    $car = PrototypeService::new('\Wheel\Concept\Car\CarProxy');
+    $car = PrototypeService::new('\Car\CarProxy');
     $car->load($carData);
     $repository->add($car);
 }
@@ -109,7 +108,7 @@ var_dump($entity->getOwner()->getAge());
 var_dump($entity->getOwner()->getGender()->getName());
 
 
-$yellowColor = PrototypeService::new('\Wheel\Concept\Car\ColorProxy');
+$yellowColor = PrototypeService::new('\Car\ColorProxy');
 $yellowColor->load([
     "name" => "Yellow",
     "code" => "yellow"

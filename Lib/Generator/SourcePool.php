@@ -9,6 +9,7 @@
 namespace Lib\Generator;
 
 
+use Lib\Util;
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\PhpFile;
 use Nette\PhpGenerator\PsrPrinter;
@@ -63,14 +64,16 @@ class SourcePool
                 foreach (array_unique($sourceFile['implements']) as $implement) {
                     $class = current(current($sourceFile['content']->getNamespaces())->getClasses());
                     // Todo 03: add "use" to class in order to use the short name in implemented interface
-                    $class->addImplement('Wheel\\Concept\\' . $implement);
+
+                    $interfaceClassName = Util::addTrailingAutoGenConceptNS($implement);
+                    $class->addImplement($interfaceClassName);
 
                     $interfaceFile = new PhpFile();
-                    $interfaceNamespace = $interfaceFile->addNamespace('Wheel\\Concept');
+                    $interfaceNamespace = $interfaceFile->addNamespace(Util::getAutoGenConceptNS());
                     $interfaceClass = $interfaceNamespace->addInterface($implement);
 
                     self::addSourceFile([
-                        'path' => 'Wheel/Concept/' . $implement . '.php',
+                        'path' => Util::FQNameToPath($interfaceClassName),
                         'content' => $interfaceFile
                     ]);
 
