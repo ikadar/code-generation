@@ -59,6 +59,7 @@ class SourcePool
 
     private static function mergeImplements()
     {
+        // TODO 03: actually it should go in one turn. We have to add class source to pool if we assign an interface before the class has been added
         foreach (self::$sourceFiles as $classFQName => $sourceFile) {
             if (array_key_exists('implements', $sourceFile)) {
                 foreach (array_unique($sourceFile['implements']) as $implement) {

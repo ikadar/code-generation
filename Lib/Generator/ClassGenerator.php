@@ -110,7 +110,7 @@ abstract class ClassGenerator
     {
         // In case of reference we have create a new Interface, and this will be the return type / parameter type hint
         // in the generated code
-        // TODO 01: clean up this code
+        // TODO 03: clean up this code
         $interfaceName = '';
         $types = [];
         foreach ($referredRubrics as $referredRubric) {
