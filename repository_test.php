@@ -12,9 +12,6 @@ use Wheel\Core\Repository\BaseRepository;
 use Wheel\Core\Persistence\InMemoryStorage;
 use Wheel\Core\PrototypeService;
 
-PrototypeService::init();
-
-
 $storage = new InMemoryStorage();
 
 $repository = new BaseRepository($storage);
@@ -59,8 +56,6 @@ $cars = [
         ],
         'brand' => [
             '__type' => 'Car.Brand',
-            // TODO 01: Why 'name' => 19 doesn't throw an exception
-//            'name' => 19,
             'name' => 'Lada',
             'code' => 'lada',
             'producer' => [
@@ -69,7 +64,7 @@ $cars = [
                 'code' => 'lada_factory',
                 'default_plate_number' => 'lada-fac-001'
             ],
-//            'default_plate_number' => 'lada-001'
+            'default_plate_number' => 'lada-001'
         ],
         'owner' => [
             '__type' => 'Car.Person',

@@ -12,9 +12,6 @@ use Lib\Util;
 
 require __DIR__ . '/vendor/autoload.php';
 
-PrototypeService::init();
-
-
 $conceptName = 'Car';
 $conceptFQName = Util::addTrailingAutoGenConceptNS($conceptName);
 

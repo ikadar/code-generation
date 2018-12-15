@@ -8,12 +8,9 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-use Wheel\Concept\PrototypeService;
+use Wheel\Core\PrototypeService;
 
 include("repository.php");
-
-PrototypeService::init();
-
 
 $t0 = microtime(true);
 
