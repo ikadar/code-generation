@@ -10,7 +10,7 @@
 
 namespace Wheel\Core\Repository;
 
-use Wheel\Auto\PrototypeService;
+use Wheel\Core\PrototypeService;
 use Wheel\Core\Persistence\StorageInterface;
 use Wheel\Core\RubricProxy;
 

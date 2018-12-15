@@ -55,14 +55,23 @@ class PrototypeClassGenerator
         $instantiateMethod->setStatic();
         // todo 02: move this into parent class
         $instantiateMethod->addParameter('className')->setTypeHint('string');
-        $instantiateMethod->addBody('if (array_key_exists($className, self::$assignments)) {');
-        $instantiateMethod->addBody('    if (!array_key_exists($className, self::$prototypes)) {');
-        $instantiateMethod->addBody('        self::$prototypes[$className] = new self::$assignments[$className]();');
-        $instantiateMethod->addBody('    }');
-        $instantiateMethod->addBody('    return clone self::$prototypes[$className];');
-        $instantiateMethod->addBody('} else {');
-        $instantiateMethod->addBody('    throw new \\Exception($className . \' has no prototype.\');');
+
+
+        $instantiateMethod->addBody('$baseClass = array_key_exists($className, self::$assignments) ? self::$assignments[$className] : null;');
+        $instantiateMethod->addBody('if ($baseClass === null) {');
+        $instantiateMethod->addBody('    throw new \Exception($className . \' has no prototype.\');');
         $instantiateMethod->addBody('}');
+
+        $instantiateMethod->addBody('$assignedClass = array_key_exists($className, static::$assignments) ? static::$assignments[$className] : $baseClass;');
+
+        $instantiateMethod->addBody('if (!array_key_exists($className, self::$prototypes)) {');
+        $instantiateMethod->addBody('    $newPrototypeObject = new $assignedClass();');
+        $instantiateMethod->addBody('    if (!is_a($newPrototypeObject, $baseClass)) {');
+        $instantiateMethod->addBody('        throw new \Exception($className . \' must be descendant of \' . $baseClass);');
+        $instantiateMethod->addBody('    }');
+        $instantiateMethod->addBody('    self::$prototypes[$className] = $newPrototypeObject;');
+        $instantiateMethod->addBody('}');
+        $instantiateMethod->addBody('return clone self::$prototypes[$className];');
     }
 
     public static function addClass($classFQName)

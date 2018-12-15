@@ -30,7 +30,7 @@ class AttributeClassGenerator extends ClassGenerator
         parent::__construct($pathElements);
 
         // Todo: currently it is not used in generated classes, but it can be. It needs to be rechecked time by time
-        $this->nameSpace->addUse(Util::addTrailingAutoGenConceptNS('PrototypeService'));
+//        $this->nameSpace->addUse(Util::addTrailingAutoGenConceptNS('PrototypeService'));
     }
 
     /**

@@ -6,6 +6,8 @@
  * Time: 17:41
  */
 
+// TODO 05: Make prototypes to implement its own interface, so if 3rd party overwrites it, it should implement it too
+
 namespace Wheel\Core;
 
 use Wheel\Auto\PrototypeService as BasePrototypeService;
@@ -13,11 +15,12 @@ use Wheel\Auto\PrototypeService as BasePrototypeService;
 
 class PrototypeService extends BasePrototypeService
 {
-    public static function init()
-    {
-        self::$assignments['\Car\CarProxy'] = '\Wheel\Concept\MyCarRubric';
-        self::$assignments['\Car\Car\PlateNumberAttribute'] = '\Wheel\Concept\MyCarCarPlateNumberAttribute';
-        self::$assignments['\Car\Brand\DefaultPlateNumberAttribute'] = '\Wheel\Concept\MyCarCarPlateNumberAttribute';
-        self::$assignments['\Car\Producer\DefaultPlateNumberAttribute'] = '\Wheel\Concept\MyCarCarPlateNumberAttribute';
-    }
+
+    public static $assignments = [
+        '\Car\CarProxy' => '\Wheel\Concept\MyCarRubric',
+        '\Car\Car\PlateNumberAttribute' => '\Wheel\Concept\MyCarCarPlateNumberAttribute',
+        '\Car\Brand\DefaultPlateNumberAttribute' => '\Wheel\Concept\MyCarBrandDefaultPlateNumberAttribute',
+        '\Car\Producer\DefaultPlateNumberAttribute' => '\Wheel\Concept\MyCarProducerDefaultPlateNumberAttribute',
+    ];
+
 }

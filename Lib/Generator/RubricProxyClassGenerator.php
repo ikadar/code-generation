@@ -30,7 +30,7 @@ class RubricProxyClassGenerator extends ClassGenerator
         $this->pathElements = $this->buildProxyClassPathElements($proxiedClassPathElements);
         parent::__construct($this->pathElements);
 
-        $this->nameSpace->addUse(Util::addTrailingAutoGenConceptNS('PrototypeService'));
+//        $this->nameSpace->addUse(Util::addTrailingAutoGenConceptNS('PrototypeService'));
 
         // TODO 02: do it well
         array_shift($proxiedClassPathElements); // remove "Wheel"

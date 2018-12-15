@@ -9,7 +9,8 @@
 namespace Wheel\Core;
 
 use Lib\Util;
-use Wheel\Auto\PrototypeService;
+//use Wheel\Auto\PrototypeService;
+use Wheel\Core\PrototypeService;
 
 /**
  * Class Rubric
@@ -111,7 +112,6 @@ class Rubric
         }
 
         $data['__type'] = implode('.', $pathElements); // dotted Wheel path of rubric
-//        var_dump($data);
 
         return $data;
     }

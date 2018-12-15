@@ -65,7 +65,7 @@ abstract class ClassGenerator
 
         GeneratorService::addFileCommentBlock($this->file);
         $this->nameSpace = $this->file->addNamespace(GeneratorPathBuilderService::buildNameSpace($this->pathElements));
-        $this->nameSpace->addUse('Wheel\\Auto\\PrototypeService');
+        $this->nameSpace->addUse('Wheel\\Core\\PrototypeService');
 
         $this->class = $this->nameSpace
             ->addClass($this->className)

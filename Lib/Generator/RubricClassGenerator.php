@@ -27,7 +27,7 @@ class RubricClassGenerator extends ClassGenerator
         $this->parentClass = Util::addTrailingCoreNS('Rubric');
         parent::__construct($pathElements);
 
-        $this->nameSpace->addUse(Util::addTrailingAutoGenConceptNS('PrototypeService'));
+//        $this->nameSpace->addUse(Util::addTrailingAutoGenConceptNS('PrototypeService'));
 
         $this->proxyGenerator = new RubricProxyClassGenerator($pathElements);
     }
