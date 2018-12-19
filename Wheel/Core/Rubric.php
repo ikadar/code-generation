@@ -41,7 +41,7 @@ class Rubric
     /**
      * @return array|string
      */
-    public static function getNameSpace()
+    public static function getNameSpace(): string
     {
         $namespace = explode('\\', static::class);
         array_pop($namespace);
