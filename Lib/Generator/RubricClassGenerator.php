@@ -28,6 +28,7 @@ class RubricClassGenerator extends ClassGenerator
         parent::__construct($pathElements);
 
 //        $this->nameSpace->addUse(Util::addTrailingAutoGenConceptNS('PrototypeService'));
+        $this->nameSpace->addUse(\Symfony\Component\Validator\Constraints::class, 'Assert');
 
         $this->proxyGenerator = new RubricProxyClassGenerator($pathElements);
     }
@@ -104,6 +105,19 @@ class RubricClassGenerator extends ClassGenerator
             $type = ClassGenerator::createInterfaceForReferenceTypes($attributeConfiguration['referredRubrics']);
         }
 
+        $validationAnnotations = [];
+        if (array_key_exists('minLength', $attributeConfiguration)) {
+            $validationAnnotations['Length'] = ['min = ' . $attributeConfiguration['minLength']];
+        }
+        if (array_key_exists('maxLength', $attributeConfiguration)) {
+            $validationAnnotations['Length'] = ['max = ' . $attributeConfiguration['maxLength']];
+        }
+
+        if (array_key_exists('Length', $validationAnnotations)) {
+            $annotation = '@Assert\\Length(' . implode(', ', $validationAnnotations['Length']) . ')';
+            $validationAnnotations['Length'] = $annotation;
+        }
+
         ClassVarGenerator::addClassVar(
             $this,
             $attributeConfiguration['name'],
@@ -141,7 +155,8 @@ class RubricClassGenerator extends ClassGenerator
                 $lines[] = 'return $this->' . $attributeName . '->getValue() ?: $this->cascade($cascadingSources);';
 
                 return $lines;
-            }
+            },
+            $validationAnnotations
         );
     }
 

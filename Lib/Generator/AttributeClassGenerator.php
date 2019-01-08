@@ -56,6 +56,8 @@ class AttributeClassGenerator extends ClassGenerator
             "allowNewSections" => "boolean",
             "allowExistingSections" => "boolean",
             "cascadingSources" => "array",
+            "minLength" => "integer",
+            "maxLength" => "integer",
         ];
 
 //var_dump($attributeConfiguration);

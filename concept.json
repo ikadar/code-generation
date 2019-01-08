@@ -15,7 +15,9 @@
           "cascadingSources": [
             ["getBrand", "getDefaultPlateNumber"],
             ["getBrand", "getProducer", "getDefaultPlateNumber"]
-          ]
+          ],
+          "minLength": 2,
+          "maxLength": 10
         },
         {
           "name": "brand",

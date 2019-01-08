@@ -40,8 +40,9 @@ class ClassVarGenerator
      * @param $partsToCreate
      * @param null $setterBodyCallback
      * @param null $getterBodyCallback
+     * @param array $validationAnnotations
      */
-    public static function addClassVar($hostClass, $name, $type, $alias, $pathElements, $partsToCreate, $setterBodyCallback = null, $getterBodyCallback = null)
+    public static function addClassVar($hostClass, $name, $type, $alias, $pathElements, $partsToCreate, $setterBodyCallback = null, $getterBodyCallback = null, $validationAnnotations = [])
     {
         $alias = $alias ? Util::pascalize($alias) : AttributeClassGenerator::getAttributeAlias($pathElements);
         $setterBodyCallback = $setterBodyCallback ?: function ($attributeName) {
@@ -88,7 +89,7 @@ class ClassVarGenerator
          * Create getter for attribute value
          */
         if (in_array(self::GETTER, $partsToCreate)) {
-            self::addAttributeGetter($hostClass, $name, $type, $pathElements, $getterBodyCallback);
+            self::addAttributeGetter($hostClass, $name, $type, $pathElements, $getterBodyCallback, $validationAnnotations);
         }
 
     }
@@ -162,8 +163,9 @@ class ClassVarGenerator
      * @param $type
      * @param $pathElements
      * @param $bodyCallback
+     * @param $validationAnnotations
      */
-    protected static function addAttributeGetter($hostClass, $attributeName, $type, $pathElements, $bodyCallback)
+    protected static function addAttributeGetter($hostClass, $attributeName, $type, $pathElements, $bodyCallback, $validationAnnotations)
     {
         $attributeRubricClass = self::getAttributeRubricClass($pathElements, $attributeName);
 
@@ -177,6 +179,11 @@ class ClassVarGenerator
             ->addBody(implode("\n", $lines));
 
         $getterMethod->addComment('@return ' . ($type === 'reference' ? $attributeRubricClass : $type));
+        foreach ($validationAnnotations as $validationAnnotation) {
+            $getterMethod->addComment($validationAnnotation);
+        }
+//        $getterMethod->addComment('@Assert\Length(min=97)');
+
 
     }
 

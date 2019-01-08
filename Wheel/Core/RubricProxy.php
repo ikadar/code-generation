@@ -80,4 +80,9 @@ class RubricProxy
         $this->section->load($data);
     }
 
+    public function validate()
+    {
+        return $this->section->validate();
+    }
+
 }

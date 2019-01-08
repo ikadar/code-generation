@@ -9,8 +9,11 @@
 namespace Wheel\Core;
 
 use Lib\Util;
-//use Wheel\Auto\PrototypeService;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Symfony\Component\Validator\Validation;
 use Wheel\Core\PrototypeService;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Rubric
@@ -134,5 +137,16 @@ class Rubric
         }
         return $cascadedValue;
     }
+
+    public function validate()
+    {
+        $validator = Validation::createValidatorBuilder()
+            ->enableAnnotationMapping()
+            ->getValidator();
+        $violations = $validator->validate($this);
+
+        var_dump($violations);
+    }
+
 
 }

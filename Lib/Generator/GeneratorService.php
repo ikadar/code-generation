@@ -84,7 +84,7 @@ class GeneratorService
         }
 
         // Loads concept schema json file
-        $schemaJson = @file_get_contents('conceptSchema.json');
+        $schemaJson = @file_get_contents('config/schemas/conceptSchema.json');
         if ($schemaJson === false) {
             echo "Missing conceptSchema.json file.\n";
             die();
