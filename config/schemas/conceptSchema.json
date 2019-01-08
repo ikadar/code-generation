@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "propertyNames": {
+    "pattern": "^[a-z_][a-z0-9_]*$"
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z_][a-z0-9_]*$"
+    },
+    "rubrics": {
+      "$ref": "#/definitions/rubrics"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "rubrics"
+  ],
+  "definitions": {
+    "rubrics": {
+      "type": "array",
+      "items": {
+        "$ref": "config/schemas/rubricSchema.json#/definitions/rubric"
+      }
+    }
+  }
+}

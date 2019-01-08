@@ -1,0 +1,34 @@
+{
+  "definitions": {
+    "rubric": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[a-z_][a-z0-9_]*$"
+      },
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z_][a-z0-9_]*$"
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "referenceAttributeSchema.json#/definitions/referenceAttribute"
+              },
+              {
+                "$ref": "stringAttributeSchema.json#/definitions/stringAttribute"
+              }
+            ]
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "attributes"
+      ]
+    }
+  }
+}

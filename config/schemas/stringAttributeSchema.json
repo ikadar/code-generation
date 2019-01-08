@@ -1,0 +1,52 @@
+{
+  "definitions": {
+    "stringAttribute": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z_][a-z0-9_]*$"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "string",
+            "int"
+          ]
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "translatable": {
+          "type": "boolean"
+        },
+        "defaultValue": {
+        },
+        "isCharacterizing": {
+          "type": "boolean"
+        },
+        "isCascading": {
+          "type": "boolean"
+        },
+        "cascadingSources": {
+          "type": "array"
+        },
+        "minLength": {
+          "type": "integer"
+        },
+        "maxLength": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "type",
+        "required",
+        "translatable",
+        "isCharacterizing",
+        "isCascading"
+      ]
+    }
+  }
+}
