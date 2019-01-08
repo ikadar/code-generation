@@ -181,9 +181,10 @@ final class RubricTest extends TestCase
         $this->assertEquals('male', self::$car->getOwner()->getGender()->getCode());
     }
 
-//    public function testCascading(): void
-//    {
-//
-//
-//    }
+    public function testValidation(): void
+    {
+        self::$car->validate();
+        $this->assertEquals('a', 'b');
+
+    }
 }
