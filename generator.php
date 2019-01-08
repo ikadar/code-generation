@@ -14,7 +14,7 @@ passthru('rm -rf Wheel/Auto', $result);
 
 //die();
 
-require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/config/bootstrap.php';
 
 use Lib\Generator\PrototypeClassGenerator;
 use Lib\Generator\SourcePool;

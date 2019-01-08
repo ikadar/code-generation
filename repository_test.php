@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: istvan
@@ -6,9 +6,7 @@
  * Time: 23:17
  */
 
-declare(strict_types=1);
-
-require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/config/bootstrap.php';
 
 use Wheel\Core\Repository\BaseRepository;
 use Wheel\Core\Persistence\InMemoryStorage;
